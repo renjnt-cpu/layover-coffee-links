@@ -1,8 +1,8 @@
-<!-- Layover Coffee — menu page. Transcribed from the real menu designs (Layover/1.jpg,
-     2.jpg, 3.jpg). Linked from index.html's "Menu & Prices" button. Same standalone,
-     no-build, no-POS setup as index.html — edit prices/items directly here (search
-     "EDIT ME" is not used here since nearly the whole file is menu data; just edit the
-     numbers/names directly and re-push). -->
+<!-- Layover Coffee — menu page. Transcribed from the real menu board design (updated
+     version shared 2026-07-28, replacing the earlier Layover/1.jpg-3.jpg transcription).
+     Linked from index.html's "Menu & Prices" button. Same standalone, no-build, no-POS
+     setup as index.html — nearly the whole file is menu data, just edit names/prices
+     directly and re-push when the menu changes again. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +12,6 @@
   <style>
     :root {
       --blue: #1e3fae; --blue-dark: #142b78; --ink: #1c2438; --line: #dbe2f2; --muted: #6b7488;
-      --gold: #b8860b;
     }
     * { box-sizing: border-box; }
     body {
@@ -38,6 +37,7 @@
 
     h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue); border-bottom: 2px solid var(--line); padding-bottom: 6px; margin: 30px 0 4px; }
     h2:first-of-type { margin-top: 0; }
+    h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.3px; color: var(--muted); margin: 16px 0 2px; }
 
     .size-header { display: flex; align-items: baseline; padding: 6px 0 2px; font-size: 10.5px; color: var(--muted); text-transform: uppercase; }
     .size-header .name { flex: 1; }
@@ -61,48 +61,44 @@
     <a class="back" href="index.html">← Back</a>
     <img class="logo" src="logo.png" alt="Layover Coffee">
     <h1>MENU</h1>
-    <p class="subtitle">Prices in ₱ · dine-in and orders</p>
+    <p class="subtitle">Prices in ₱ · Boarding Now, Cebu</p>
 
     <a class="cta" href="https://m.me/100078084416611?text=Hi!%20I%20want%20to%20order%20please%20%F0%9F%98%8A">💬 Ready to order? Message us</a>
 
-    <h2>Espresso Based</h2>
+    <h2>Coffee</h2>
+    <h3>Espresso Based</h3>
     <div class="size-header"><span class="name"></span><span class="p">Hot 8oz</span><span class="p">Cold 12oz</span><span class="p">Cold 16oz</span></div>
     <div class="item"><span class="name">Americano</span><span class="price">100</span><span class="price">120</span><span class="price">135</span></div>
-    <div class="item"><span class="name">Latte</span><span class="price">125</span><span class="price">140</span><span class="price">155</span></div>
+    <div class="item"><span class="name">Latte</span><span class="price">130</span><span class="price">145</span><span class="price">155</span></div>
+    <div class="item"><span class="name">Vanilla Latte</span><span class="price">125</span><span class="price">145</span><span class="price">155</span></div>
     <div class="item"><span class="name">Cappuccino</span><span class="price">125</span><span class="price">140</span><span class="price">155</span></div>
     <div class="item"><span class="name">⭐ Sea Salt</span><span class="price na">—</span><span class="price">160</span><span class="price">175</span></div>
-    <div class="item"><span class="name">⭐ Spanish</span><span class="price">135</span><span class="price">150</span><span class="price">165</span></div>
+    <div class="item"><span class="name">⭐ Spanish</span><span class="price">145</span><span class="price">155</span><span class="price">165</span></div>
     <div class="item"><span class="name">Caramel Macchiato</span><span class="price">145</span><span class="price">160</span><span class="price">175</span></div>
     <div class="item"><span class="name">White Chocolate Mocha</span><span class="price">155</span><span class="price">170</span><span class="price">185</span></div>
     <div class="item"><span class="name">Toffee Nut Latte</span><span class="price">155</span><span class="price">170</span><span class="price">185</span></div>
     <div class="item"><span class="name">👑 Butterscotch Latte</span><span class="price">155</span><span class="price">170</span><span class="price">185</span></div>
     <div class="item"><span class="name">👑 Salted Caramel</span><span class="price">155</span><span class="price">170</span><span class="price">185</span></div>
-    <div class="item"><span class="name">Creme Brulee</span><span class="price na">—</span><span class="price">170</span><span class="price">185</span></div>
     <div class="item"><span class="name">Mocha</span><span class="price">135</span><span class="price">150</span><span class="price">165</span></div>
     <div class="item"><span class="name">Hazelnut Latte</span><span class="price">155</span><span class="price">170</span><span class="price">185</span></div>
 
-    <h2>Signature</h2>
-    <div class="size-header"><span class="name"></span><span class="p">Hot 8oz</span><span class="p">Cold 12oz</span><span class="p">Cold 16oz</span></div>
-    <div class="item"><span class="name">Jetlag Latte</span><span class="price na">—</span><span class="price">160</span><span class="price">175</span></div>
-    <div class="item single"><span class="name">Barista's Drink</span><span class="price">150</span></div>
+    <h3>Signature Drinks</h3>
+    <div class="size-header"><span class="name"></span><span class="p">Cold 12oz</span><span class="p">Cold 16oz</span></div>
+    <div class="item"><span class="name">Jetlag Latte</span><span class="price">160</span><span class="price">175</span></div>
+    <div class="item"><span class="name">Barista's Drink</span><span class="price">150</span><span class="price">170</span></div>
 
-    <h2>Matcha Series</h2>
+    <h2>Matcha Bar</h2>
     <div class="size-header"><span class="name"></span><span class="p">Hot 8oz</span><span class="p">Iced 12oz</span><span class="p">Iced 16oz</span></div>
-    <div class="item"><span class="name">Matcha Latte</span><span class="price">125</span><span class="price">140</span><span class="price">155</span></div>
-    <div class="item"><span class="name">Hojicha Latte</span><span class="price">125</span><span class="price">140</span><span class="price">155</span></div>
-    <div class="item"><span class="name">Matcha Cloud</span><span class="price na">—</span><span class="price">160</span><span class="price">170</span></div>
+    <div class="item"><span class="name">Matcha Latte</span><span class="price">150</span><span class="price">150</span><span class="price">170</span></div>
+    <div class="item"><span class="name">Hojicha Latte</span><span class="price">150</span><span class="price">150</span><span class="price">170</span></div>
+    <div class="item"><span class="name">Matcha Float</span><span class="price na">—</span><span class="price">170</span><span class="price">190</span></div>
+    <div class="item"><span class="name">⭐ Matcha Cloud</span><span class="price na">—</span><span class="price">165</span><span class="price">180</span></div>
     <div class="item"><span class="name">⭐ Mango Oat Matcha</span><span class="price na">—</span><span class="price">170</span><span class="price">185</span></div>
-    <div class="item"><span class="name">Creamy Matcha Latte</span><span class="price na">—</span><span class="price">155</span><span class="price">170</span></div>
-    <div class="item"><span class="name">Strawberry Matcha</span><span class="price na">—</span><span class="price">150</span><span class="price">165</span></div>
-    <div class="item"><span class="name">👑 Matcha Banana Pudding</span><span class="price na">—</span><span class="price na">—</span><span class="price">199</span></div>
+    <div class="item"><span class="name">Creamy Matcha Latte</span><span class="price na">—</span><span class="price">160</span><span class="price">180</span></div>
+    <div class="item"><span class="name">Strawberry Matcha</span><span class="price na">—</span><span class="price">160</span><span class="price">180</span></div>
+    <div class="item"><span class="name">Matcha Banana Pudding</span><span class="price na">—</span><span class="price na">—</span><span class="price">200</span></div>
 
-    <h2>Non-Coffee</h2>
-    <div class="item single"><span class="name">Hot Chocolate</span><span class="price">110</span></div>
-    <div class="item single"><span class="name">Milo Clouds</span><span class="price">110</span></div>
-    <div class="item single"><span class="name">Thai Milk Tea</span><span class="price">110</span></div>
-    <div class="item single"><span class="name">Mango Fizz Black Tea</span><span class="price">110</span></div>
-
-    <h2>Add-Ons</h2>
+    <h3>Add-Ons</h3>
     <div class="item single"><span class="name">Extra Shot</span><span class="price">25</span></div>
     <div class="item single"><span class="name">Oatmilk</span><span class="price">35</span></div>
     <div class="item single"><span class="name">Sugar Syrup</span><span class="price">25</span></div>
@@ -112,28 +108,58 @@
     <div class="item single"><span class="name">Breve</span><span class="price">25</span></div>
     <div class="item single"><span class="name">Tiramisu</span><span class="price">50</span></div>
 
+    <h2>Meals</h2>
+    <h3>Pre-Flight Meals — Silog</h3>
+    <div class="item single"><span class="name">⭐ Hungarian Silog</span><span class="price">149</span></div>
+    <div class="item single"><span class="name">Hot Silog</span><span class="price">149</span></div>
+    <div class="item single"><span class="name">Ham Silog</span><span class="price">149</span></div>
+    <div class="item single"><span class="name">Spam Silog</span><span class="price">149</span></div>
+    <div class="item single"><span class="name">Corned Silog</span><span class="price">149</span></div>
+
+    <h3>Flight Bites</h3>
+    <div class="item single"><span class="name">Classic Burger</span><span class="price">89</span></div>
+    <div class="item single"><span class="name">Chicken Fillet Sandwich</span><span class="price">149</span></div>
+
+    <h2>Non-Coffee</h2>
+    <div class="item single"><span class="name">Hot Chocolate</span><span class="price">130</span></div>
+    <div class="item single"><span class="name">Milo Cloud</span><span class="price">150</span></div>
+    <div class="item single"><span class="name">Ube Cloud</span><span class="price">150</span></div>
+    <div class="item single"><span class="name">Thai Milk Tea</span><span class="price">110</span></div>
+    <div class="item single"><span class="name">Double Coconut Cloud</span><span class="price">150</span></div>
+
     <h2>Flight Favorites</h2>
     <div class="item single"><span class="name">Sunset Mango Sticky Rice</span><span class="price">139</span></div>
-    <div class="item single"><span class="name">⭐ Sunset Mango Sticky Rice à la mode</span><span class="price">159</span></div>
+    <div class="item single"><span class="name">⭐ Mango Sticky Rice Supreme</span><span class="price">159</span></div>
     <div class="note">*Available with your choice of ice cream</div>
-    <div class="item single"><span class="name">Ube Mango Sticky Rice à la mode</span><span class="price">159</span></div>
-    <div class="item single"><span class="name">⭐ Biscoff Banana Pudding</span><span class="price">159</span></div>
-    <div class="item single"><span class="name">⭐ Brownie à la mode</span><span class="price">139</span></div>
+    <div class="item single"><span class="name">Brownie à la Mode</span><span class="price">140</span></div>
+    <div class="item single"><span class="name">⭐ Biscoff Brownie à la Mode</span><span class="price">155</span></div>
     <div class="item single"><span class="name">Overload Cheesy Corn</span><span class="price">75</span></div>
+    <div class="item single"><span class="name">Mais Con Yelo</span><span class="price">140</span></div>
+    <div class="item single"><span class="name">⭐ Halo-Halo Supreme</span><span class="price">159</span></div>
+
+    <h2>Cabin Bakes</h2>
+    <div class="item single"><span class="name">Classic Brownies</span><span class="price">130</span></div>
+    <div class="item single"><span class="name">Biscoff Brownies</span><span class="price">150</span></div>
+    <div class="item single"><span class="name">Dubai Chewy Cookies</span><span class="price">120</span></div>
+    <div class="item single"><span class="name">Dubai Chewy Cookies (3 pcs)</span><span class="price">349</span></div>
 
     <h2>Layover Scoops</h2>
-    <div class="item single"><span class="name">⭐ Vanilla Biscoff</span><span class="price">139</span></div>
+    <div class="item single"><span class="name">⭐ Vanilla Biscoff Ice Cream</span><span class="price">149</span></div>
     <div class="item single"><span class="name">Mango Graham</span><span class="price">149</span></div>
-    <div class="item single"><span class="name">Strawberry</span><span class="price">139</span></div>
-    <div class="item single"><span class="name">Cookies &amp; Cream</span><span class="price">139</span></div>
-    <div class="item single"><span class="name">Vanilla (Plain)</span><span class="price">139</span></div>
-    <div class="item single"><span class="name">Ube</span><span class="price">139</span></div>
+    <div class="item single"><span class="name">Strawberry Lava</span><span class="price">139</span></div>
     <div class="note">*Our ice cream is homemade, crafted using high-quality ingredients.</div>
 
-    <h2>Layover Frost</h2>
-    <div class="item single"><span class="name">Mais Con Yelo</span><span class="price">139</span></div>
-    <div class="item single"><span class="name">⭐ Halo-Halo Supreme</span><span class="price">159</span></div>
-    <div class="note">*Ube halaya, nata de coco, gulaman, sweetened banana, red beans, corn kernels, tapioca pearls, boba, cornflakes, macapuno, jackfruit, special flavored shaved ice, and our homemade ice cream, topped with grated cheese &amp; leche flan.</div>
+    <h2>Cabin Desserts</h2>
+    <div class="item single"><span class="name">⭐ Biscoff Banana Pudding</span><span class="price">160</span></div>
+    <div class="item single"><span class="name">Ube Banana Pudding</span><span class="price">160</span></div>
+    <div class="item single"><span class="name">Nutella Oreo Banana Pudding</span><span class="price">180</span></div>
+
+    <h2>Runway Fries</h2>
+    <div class="size-header"><span class="name"></span><span class="p">200g</span><span class="p">300g</span></div>
+    <div class="item"><span class="name">Cheese</span><span class="price">99</span><span class="price">149</span></div>
+    <div class="item"><span class="name">BBQ</span><span class="price">99</span><span class="price">149</span></div>
+    <div class="item"><span class="name">Sour Cream</span><span class="price">99</span><span class="price">149</span></div>
+    <div class="item"><span class="name">Chili BBQ</span><span class="price">99</span><span class="price">149</span></div>
 
     <div class="legend"><span>⭐ Best Seller</span><span>👑 Premium Choice</span></div>
 
