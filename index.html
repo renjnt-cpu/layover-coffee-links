@@ -1,0 +1,125 @@
+<!-- Layover Coffee — link-in-bio funnel page. Fully standalone: no Apps Script, no POS
+     backend, no build step. Put this URL in the Instagram/TikTok bio (and on any QR code)
+     once hosted — every link on this page either opens Messenger (m.me) directly or a
+     Google Maps link, so hosting this file anywhere static is all that's required.
+
+     To update hours, location, promo, or links: edit the values directly below (search
+     for "EDIT ME"), save, and re-upload wherever this is hosted. There's no shared config
+     file backing this anymore — this page and Facebook's own chatbot replies (if any)
+     are two separate things you update independently. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Layover Coffee</title>
+  <style>
+    :root {
+      --brown: #4a2c20; --brown-dark: #2f1b14; --cream: #fbf3e7; --amber: #d98a3d;
+      --amber-dark: #b96f27; --line: #e4d5c1; --muted: #8a7462;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif; margin: 0; min-height: 100vh;
+      background: linear-gradient(180deg, #fff 0%, var(--cream) 220px);
+      color: var(--brown-dark);
+      display: flex; justify-content: center;
+    }
+    .page { width: 100%; max-width: 440px; padding: 36px 20px 40px; }
+
+    .avatar {
+      width: 84px; height: 84px; border-radius: 50%; margin: 0 auto 14px;
+      background: var(--brown); color: var(--cream);
+      display: flex; align-items: center; justify-content: center; font-size: 36px;
+    }
+    .brand { text-align: center; margin-bottom: 18px; }
+    .brand h1 { margin: 0; font-size: 22px; color: var(--brown); }
+    .brand p { margin: 5px 0 0; font-size: 13px; color: var(--muted); }
+
+    .promo {
+      background: var(--brown); color: var(--cream); text-align: center;
+      padding: 9px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 20px;
+    }
+
+    .section-label {
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      color: var(--muted); text-align: center; margin: 22px 0 10px;
+    }
+    .section-label:first-of-type { margin-top: 4px; }
+
+    .link-btn {
+      display: block; text-decoration: none; color: var(--brown-dark);
+      background: #fff; border: 1px solid var(--line); border-radius: 12px;
+      padding: 14px 16px; margin-bottom: 10px; text-align: center;
+    }
+    .link-btn:active { border-color: var(--amber); }
+    .link-btn .title { font-size: 15px; font-weight: 600; }
+    .link-btn .sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+    .link-btn.primary {
+      background: var(--amber); border-color: var(--amber-dark); color: #fff;
+      box-shadow: 0 2px 0 var(--amber-dark);
+    }
+    .link-btn.primary:active { box-shadow: none; transform: translateY(2px); }
+    .link-btn.primary .sub { color: rgba(255,255,255,0.85); }
+
+    .social { display: flex; justify-content: center; gap: 14px; margin: 24px 0 8px; }
+    .social a {
+      width: 40px; height: 40px; border-radius: 50%; background: var(--brown);
+      display: flex; align-items: center; justify-content: center; text-decoration: none;
+      color: var(--cream); font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+    }
+
+    .footer { text-align: center; font-size: 13px; color: var(--muted); margin-top: 18px; }
+    .footer .line1 { color: var(--brown); font-weight: 600; margin-bottom: 2px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="avatar">☕</div>
+    <div class="brand">
+      <h1>Layover Coffee</h1>
+      <p>Your next stop for coffee and treats.</p>
+    </div>
+
+    <!-- EDIT ME: delete this whole <div class="promo">...</div> block when no promo is running.
+         Never leave a promo here that isn't actually active — see Voice Brain truth rules. -->
+    <!--
+    <div class="promo">🎉 Buy 1 Take 1 Iced Spanish Latte, until July 20</div>
+    -->
+
+    <div class="section-label">Ordering the Goods</div>
+    <a class="link-btn primary" href="https://m.me/100078084416611?text=Hi!%20I%20want%20to%20order%20please%20%F0%9F%98%8A">
+      <div class="title">💬 Message Us to Order</div>
+      <div class="sub">Fastest way to order — real replies, real fast</div>
+    </a>
+    <a class="link-btn" href="https://m.me/100078084416611?text=Hi!%20Can%20I%20see%20the%20menu%20and%20prices%3F">
+      <div class="title">📋 Menu &amp; Prices</div>
+      <div class="sub">Ask what's available today</div>
+    </a>
+
+    <div class="section-label">Quick Links</div>
+    <a class="link-btn" href="https://share.google/FFeu1e0yfBBOAFOCL" target="_blank" rel="noopener">
+      <div class="title">📍 Hours &amp; Location</div>
+      <!-- EDIT ME: BUSINESS_HOURS · LOCATION_ADDRESS -->
+      <div class="sub">Open daily, 9:00 AM–3:00 AM · Urban Deca Homes Hernan Cortes, across Bldg. 14</div>
+    </a>
+    <a class="link-btn" href="https://m.me/100078084416611?text=Hi!%20I%20have%20a%20question.">
+      <div class="title">💭 Ask a Question</div>
+      <div class="sub">Custom orders, catering, anything else</div>
+    </a>
+
+    <!-- EDIT ME: delete any <a> below for a social you don't have yet. -->
+    <div class="social">
+      <a href="https://www.facebook.com/profile.php?id=100078084416611" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+      <!-- <a href="https://instagram.com/YOUR_HANDLE" target="_blank" rel="noopener" aria-label="Instagram">IG</a> -->
+      <!-- <a href="https://tiktok.com/@YOUR_HANDLE" target="_blank" rel="noopener" aria-label="TikTok">TT</a> -->
+    </div>
+
+    <div class="footer">
+      <div class="line1">We're ready when you are 😊</div>
+      <div>See you at Layover ☕</div>
+    </div>
+  </div>
+</body>
+</html>
