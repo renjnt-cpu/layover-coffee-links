@@ -32,9 +32,12 @@
     .tagline { text-align: center; font-size: 13px; color: var(--muted); margin: 6px 0 26px; }
 
     .promo {
+      display: block; text-decoration: none;
       background: var(--blue); color: #fff; text-align: center;
-      padding: 9px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 20px;
+      padding: 12px 14px; border-radius: 12px; margin-bottom: 20px;
     }
+    .promo .title { font-size: 14px; font-weight: 700; }
+    .promo .sub { font-size: 12px; margin-top: 2px; color: rgba(255,255,255,0.9); }
 
     .section-label {
       font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
@@ -74,11 +77,14 @@
     <img class="logo" src="logo.png" alt="Layover Coffee">
     <p class="tagline">Your next stop for coffee and treats.</p>
 
-    <!-- EDIT ME: delete this whole <div class="promo">...</div> block when no promo is running.
-         Never leave a promo here that isn't actually active — see Voice Brain truth rules. -->
-    <!--
-    <div class="promo">🎉 Buy 1 Take 1 Iced Spanish Latte, until July 20</div>
-    -->
+    <!-- Flight of the Month: evergreen, doesn't need editing when the season changes —
+         it just asks in Messenger, and whoever answers there says what this month's
+         seasonal coffee actually is. Only remove/replace this if Layover stops running
+         a monthly seasonal drink altogether. -->
+    <a class="promo" href="https://m.me/100078084416611?text=Hi!%20What%20is%20the%20Flight%20of%20the%20Month%3F%20%E2%98%95">
+      <div class="title">☕ Flight of the Month</div>
+      <div class="sub">A new seasonal coffee, every month — tap to find out what's brewing</div>
+    </a>
 
     <div class="section-label">Ordering the Goods</div>
     <a class="link-btn primary" href="https://m.me/100078084416611?text=Hi!%20I%20want%20to%20order%20please%20%F0%9F%98%8A">
