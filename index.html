@@ -16,14 +16,14 @@
   <title>Layover Coffee</title>
   <style>
     :root {
-      --brown: #4a2c20; --brown-dark: #2f1b14; --cream: #fbf3e7; --amber: #d98a3d;
-      --amber-dark: #b96f27; --line: #e4d5c1; --muted: #8a7462;
+      /* Sampled directly from the real logo/menu artwork (Layover/1.jpg), not invented. */
+      --blue: #1e3fae; --blue-dark: #142b78; --ink: #1c2438; --line: #dbe2f2; --muted: #6b7488;
     }
     * { box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif; margin: 0; min-height: 100vh;
-      background: linear-gradient(180deg, #fff 0%, var(--cream) 220px);
-      color: var(--brown-dark);
+      background: #ffffff;
+      color: var(--ink);
       display: flex; justify-content: center;
     }
     .page { width: 100%; max-width: 420px; padding: 40px 20px 40px; }
@@ -32,14 +32,14 @@
     .tagline { text-align: center; font-size: 13px; color: var(--muted); margin: 6px 0 30px; }
 
     .promo {
-      background: var(--brown); color: var(--cream); text-align: center;
+      background: var(--blue); color: #fff; text-align: center;
       padding: 9px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 20px;
     }
 
     .cta {
       display: block; text-align: center; text-decoration: none;
-      background: var(--amber); color: #fff; border: 1px solid var(--amber-dark);
-      border-radius: 14px; padding: 20px 16px; box-shadow: 0 3px 0 var(--amber-dark);
+      background: var(--blue); color: #fff; border: 1px solid var(--blue-dark);
+      border-radius: 14px; padding: 20px 16px; box-shadow: 0 3px 0 var(--blue-dark);
       margin-bottom: 28px;
     }
     .cta:active { box-shadow: none; transform: translateY(3px); }
@@ -47,7 +47,7 @@
     .cta .sub { font-size: 12.5px; margin-top: 4px; color: rgba(255,255,255,0.9); }
 
     .info-row {
-      text-decoration: none; color: var(--brown-dark);
+      text-decoration: none; color: var(--ink);
       display: flex; gap: 12px; align-items: baseline;
       padding: 10px 4px; border-bottom: 1px solid var(--line);
       font-size: 13.5px;
@@ -57,13 +57,13 @@
 
     .social { display: flex; justify-content: center; gap: 14px; margin: 28px 0 8px; }
     .social a {
-      width: 40px; height: 40px; border-radius: 50%; background: var(--brown);
+      width: 40px; height: 40px; border-radius: 50%; background: var(--blue);
       display: flex; align-items: center; justify-content: center; text-decoration: none;
-      color: var(--cream); font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+      color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
     }
 
     .footer { text-align: center; font-size: 13px; color: var(--muted); margin-top: 22px; }
-    .footer .line1 { color: var(--brown); font-weight: 600; margin-bottom: 2px; }
+    .footer .line1 { color: var(--blue); font-weight: 600; margin-bottom: 2px; }
   </style>
 </head>
 <body>
