@@ -1,8 +1,8 @@
 <!-- Layover Coffee — link-in-bio funnel page. Fully standalone: no Apps Script, no POS
      backend, no build step. Put this URL in the Instagram/TikTok bio (and on any QR code)
-     once hosted. Deliberately NOT a Linktree-style hub with many destinations — one
-     dominant action (Message Us to Order, straight into Messenger), with hours/location
-     as plain info underneath, not additional buttons competing with it.
+     once hosted. Linktree-style hub (like the reference the owner is cloning) — logo,
+     stacked link buttons under section headers, social icons at the bottom — rebuilt in
+     Layover's own real brand blue (sampled from the logo/menu artwork), not invented colors.
 
      To update hours, location, promo, or links: edit the values directly below (search
      for "EDIT ME"), save, and re-upload wherever this is hosted (or `git push` if using
@@ -29,40 +29,43 @@
     .page { width: 100%; max-width: 420px; padding: 40px 20px 40px; }
 
     .logo { display: block; width: 55%; max-width: 230px; height: auto; margin: 0 auto; }
-    .tagline { text-align: center; font-size: 13px; color: var(--muted); margin: 6px 0 30px; }
+    .tagline { text-align: center; font-size: 13px; color: var(--muted); margin: 6px 0 26px; }
 
     .promo {
       background: var(--blue); color: #fff; text-align: center;
       padding: 9px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 20px;
     }
 
-    .cta {
-      display: block; text-align: center; text-decoration: none;
-      background: var(--blue); color: #fff; border: 1px solid var(--blue-dark);
-      border-radius: 14px; padding: 20px 16px; box-shadow: 0 3px 0 var(--blue-dark);
-      margin-bottom: 28px;
+    .section-label {
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      color: var(--muted); text-align: center; margin: 22px 0 10px;
     }
-    .cta:active { box-shadow: none; transform: translateY(3px); }
-    .cta .title { font-size: 18px; font-weight: 700; }
-    .cta .sub { font-size: 12.5px; margin-top: 4px; color: rgba(255,255,255,0.9); }
+    .section-label:first-of-type { margin-top: 4px; }
 
-    .info-row {
-      text-decoration: none; color: var(--ink);
-      display: flex; gap: 12px; align-items: baseline;
-      padding: 10px 4px; border-bottom: 1px solid var(--line);
-      font-size: 13.5px;
+    .link-btn {
+      display: block; text-decoration: none; color: var(--ink);
+      background: #fff; border: 1px solid var(--line); border-radius: 12px;
+      padding: 14px 16px; margin-bottom: 10px; text-align: center;
     }
-    .info-row:last-of-type { border-bottom: none; }
-    .info-row .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.3px; min-width: 64px; flex-shrink: 0; }
+    .link-btn:active { border-color: var(--blue); }
+    .link-btn .title { font-size: 15px; font-weight: 600; }
+    .link-btn .sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
 
-    .social { display: flex; justify-content: center; gap: 14px; margin: 28px 0 8px; }
+    .link-btn.primary {
+      background: var(--blue); border-color: var(--blue-dark); color: #fff;
+      box-shadow: 0 2px 0 var(--blue-dark);
+    }
+    .link-btn.primary:active { box-shadow: none; transform: translateY(2px); }
+    .link-btn.primary .sub { color: rgba(255,255,255,0.85); }
+
+    .social { display: flex; justify-content: center; gap: 14px; margin: 26px 0 8px; }
     .social a {
       width: 40px; height: 40px; border-radius: 50%; background: var(--blue);
       display: flex; align-items: center; justify-content: center; text-decoration: none;
       color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
     }
 
-    .footer { text-align: center; font-size: 13px; color: var(--muted); margin-top: 22px; }
+    .footer { text-align: center; font-size: 13px; color: var(--muted); margin-top: 20px; }
     .footer .line1 { color: var(--blue); font-weight: 600; margin-bottom: 2px; }
   </style>
 </head>
@@ -77,20 +80,25 @@
     <div class="promo">🎉 Buy 1 Take 1 Iced Spanish Latte, until July 20</div>
     -->
 
-    <a class="cta" href="https://m.me/100078084416611?text=Hi!%20I%20want%20to%20order%20please%20%F0%9F%98%8A">
+    <div class="section-label">Ordering the Goods</div>
+    <a class="link-btn primary" href="https://m.me/100078084416611?text=Hi!%20I%20want%20to%20order%20please%20%F0%9F%98%8A">
       <div class="title">💬 Message Us to Order</div>
-      <div class="sub">Tap to start ordering on Messenger — real replies, real fast</div>
+      <div class="sub">Fastest way to order — real replies, real fast</div>
+    </a>
+    <a class="link-btn" href="https://m.me/100078084416611?text=Hi!%20Can%20I%20see%20the%20menu%20and%20prices%3F">
+      <div class="title">📋 Menu &amp; Prices</div>
+      <div class="sub">Ask what's available today</div>
     </a>
 
-    <div class="info-row">
-      <span class="label">Hours</span>
-      <!-- EDIT ME: BUSINESS_HOURS -->
-      <span>Open daily, 9:00 AM–3:00 AM</span>
-    </div>
-    <a class="info-row" href="https://share.google/FFeu1e0yfBBOAFOCL" target="_blank" rel="noopener">
-      <span class="label">Location</span>
-      <!-- EDIT ME: LOCATION_ADDRESS (linked to your Google Maps share link above) -->
-      <span>Urban Deca Homes Hernan Cortes, across Bldg. 14</span>
+    <div class="section-label">Quick Links</div>
+    <a class="link-btn" href="https://share.google/FFeu1e0yfBBOAFOCL" target="_blank" rel="noopener">
+      <div class="title">📍 Hours &amp; Location</div>
+      <!-- EDIT ME: BUSINESS_HOURS · LOCATION_ADDRESS -->
+      <div class="sub">Open daily, 9:00 AM–3:00 AM · Urban Deca Homes Hernan Cortes, across Bldg. 14</div>
+    </a>
+    <a class="link-btn" href="https://m.me/100078084416611?text=Hi!%20I%20have%20a%20question.">
+      <div class="title">💭 Ask a Question</div>
+      <div class="sub">Custom orders, catering, anything else</div>
     </a>
 
     <!-- EDIT ME: delete any <a> below for a social you don't have yet. -->
