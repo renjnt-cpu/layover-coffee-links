@@ -1,0 +1,291 @@
+<!-- Layover Coffee — digital loyalty card. Fully standalone from the POS automation-system:
+     talks only to its own dedicated Apps Script backend (a new "Layover Loyalty" sheet/project,
+     not "Layover Coffee Ops"). One file, two views, switched by URL params:
+       ?code=XXXX            -> customer view (their card + a QR staff can scan to add a stamp)
+       ?code=XXXX&staff=1    -> staff check-in view (add a stamp / redeem the free-drink reward)
+       ?staff=1              -> staff sign-up view (create a brand-new card, get a code + link)
+
+     EDIT ME: API_URL below, once the Apps Script backend (see Code.gs) is deployed.
+     logo.png must stay in the same folder as this file (same one the funnel page uses). -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layover Loyalty Pass</title>
+<style>
+  :root {
+    --blue: #1e3fae; --blue-dark: #142b78; --ink: #1c2438; --line: #dbe2f2; --muted: #6b7488;
+    --gold: #c9962c; --gold-dark: #8f6a1c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Arial, sans-serif; margin: 0; min-height: 100vh;
+    background: #f4f6fb; color: var(--ink);
+    display: flex; justify-content: center;
+  }
+  .page { width: 100%; max-width: 420px; padding: 28px 18px 40px; }
+
+  .logo-row { display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom: 18px; font-size: 14px; }
+  .logo-row img { width: 38px; height: 38px; }
+
+  .card {
+    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    border-radius: 18px; padding: 20px; color: #fff;
+    box-shadow: 0 10px 24px rgba(20,43,120,0.25);
+  }
+  .card-head { display:flex; justify-content: space-between; align-items:flex-start; }
+  .card-head .title { font-size: 17px; font-weight: 800; letter-spacing: 0.4px; }
+  .card-head .plane { font-size: 20px; }
+  .card-head .sub { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+
+  .name-row {
+    margin-top: 16px; background: rgba(255,255,255,0.12); border-radius: 10px;
+    padding: 8px 12px; font-size: 13px;
+  }
+  .name-row .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; opacity: 0.75; }
+  .name-row .value { font-size: 15px; font-weight: 700; margin-top: 2px; }
+
+  .stamp-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 18px 0 6px; }
+  .stamp {
+    aspect-ratio: 1; border-radius: 50%; border: 2px dashed rgba(255,255,255,0.5);
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    font-size: 8.5px; font-weight: 700; line-height:1.15; padding: 2px;
+  }
+  .stamp.filled { border-style: solid; border-color: #fff; background: rgba(255,255,255,0.92); color: var(--blue-dark); }
+
+  .progress-text { text-align:center; font-size: 13px; margin-top: 10px; }
+
+  .qr-wrap { text-align:center; margin-top: 18px; }
+  .qr-wrap img { width: 140px; height: 140px; border-radius: 10px; background:#fff; padding: 8px; }
+  .qr-wrap .hint { font-size: 11px; opacity: 0.85; margin-top: 6px; }
+
+  .rewards { background:#fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-top: 16px; }
+  .rewards h3 { font-size: 12px; text-transform: uppercase; letter-spacing:0.6px; color:var(--muted); margin: 0 0 8px; }
+  .rewards ul { margin:0; padding-left: 18px; font-size: 13px; }
+  .rewards li { margin-bottom: 4px; }
+
+  .fine-print { margin-top: 16px; font-size: 11px; color: var(--muted); line-height:1.5; }
+  .fine-print h4 { font-size: 11px; text-transform:uppercase; letter-spacing:0.5px; color: var(--ink); margin: 10px 0 3px; }
+  .fine-print ul { margin: 0; padding-left: 16px; }
+
+  .footer { text-align:center; font-size: 12px; color: var(--muted); margin-top: 22px; }
+  .footer .line1 { color: var(--blue); font-weight: 700; }
+
+  .staff-box { background:#fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px; margin-top: 18px; }
+  .staff-box h2 { font-size: 15px; margin: 0 0 12px; }
+  .staff-box input {
+    width:100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px;
+    font-size: 14px; margin-bottom: 10px;
+  }
+  .btn {
+    display:block; width:100%; text-align:center; border:none; border-radius:10px;
+    padding: 12px; font-size: 14px; font-weight:700; cursor:pointer; margin-bottom:10px;
+  }
+  .btn.primary { background: var(--blue); color:#fff; }
+  .btn.gold { background: var(--gold); color:#fff; }
+  .msg { font-size: 13px; margin-top: 8px; text-align:center; min-height: 16px; }
+  .msg.error { color:#b3261e; }
+  .msg.ok { color:#1a7f37; }
+  .loading, .not-found { text-align:center; padding: 60px 20px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="page" id="app">
+  <div class="loading">Loading your card…</div>
+</div>
+
+<script>
+// EDIT ME: replace with the deployed Apps Script web app /exec URL (see Code.gs in this folder)
+const API_URL = 'https://script.google.com/macros/s/AKfycbw3BL8uuO4QQRsbctY4C2b35Z9FRWBYpLsCqXWz7hVMuobD9Mz6KFeGl2dVU3dKmkEU/exec';
+
+// Stamp-number -> reward label. Matches the physical Layover Loyalty Pass card.
+const MILESTONE_LABELS = { 3: 'Extra Scoop', 6: 'Free Add-Ons', 7: '10% Off', 10: 'Free Vanilla Latte', 12: 'Free Coffee/Treat' };
+
+const qs = new URLSearchParams(location.search);
+const code = qs.get('code');
+const isStaff = qs.get('staff') === '1';
+const app = document.getElementById('app');
+
+function pageUrl(extra) {
+  const url = new URL(location.href);
+  url.search = '?' + new URLSearchParams(extra).toString();
+  return url.toString();
+}
+
+function stampGrid(stamps) {
+  let html = '<div class="stamp-grid">';
+  for (let i = 1; i <= 12; i++) {
+    const filled = i <= stamps;
+    const label = MILESTONE_LABELS[i] || '';
+    html += `<div class="stamp ${filled ? 'filled' : ''}">${label || (filled ? '&#10003;' : i)}</div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function nextRewardText(state) {
+  if (state.stamps >= 12) return '&#127881; <b>Free Coffee/Treat is ready!</b> Show this to staff.';
+  const left = state.nextMilestone - state.stamps;
+  return `<b>${left}</b> more stamp${left === 1 ? '' : 's'} for <b>${state.nextReward}</b>`;
+}
+
+function renderCustomer(state) {
+  const qrTarget = pageUrl({ code: state.code, staff: '1' });
+  const qrImg = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=' + encodeURIComponent(qrTarget);
+  app.innerHTML = `
+    <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee</strong></div>
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="title">LAYOVER LOYALTY PASS</div>
+          <div class="sub">Drinks &amp; Treats</div>
+        </div>
+        <div class="plane">&#9992;</div>
+      </div>
+      <div class="name-row">
+        <div class="label">Passenger Name</div>
+        <div class="value">${escapeHtml(state.name)}</div>
+      </div>
+      ${stampGrid(state.stamps)}
+      <div class="progress-text">${nextRewardText(state)}</div>
+      <div class="qr-wrap">
+        <img src="${qrImg}" alt="Staff check-in QR">
+        <div class="hint">Show this QR to staff at checkout to add a stamp</div>
+      </div>
+    </div>
+
+    <div class="rewards">
+      <h3>Rewards Along the Way</h3>
+      <ul>
+        <li>3 stamps — Extra Scoop</li>
+        <li>6 stamps — Free Add-Ons</li>
+        <li>7 stamps — 10% Off</li>
+        <li>10 stamps — Free Vanilla Latte</li>
+        <li>12 stamps — Free Coffee/Treat (every 12th drink is on us!)</li>
+      </ul>
+    </div>
+
+    <div class="fine-print">
+      <h4>Terms &amp; Conditions</h4>
+      <ul>
+        <li>One reward/redemption per transaction only.</li>
+        <li>Rewards cannot be combined with other promotions or discounts (PWD/Senior).</li>
+        <li>Lost loyalty codes will not be replaced or transferred.</li>
+        <li>Loyalty cards are applicable for walk-in customers only.</li>
+      </ul>
+      <h4>Exclusions</h4>
+      <ul>
+        <li>Pastries and ready-to-eat items.</li>
+        <li>Substituted milk options or free add-ons.</li>
+        <li>Delivery orders / online transactions.</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      <div class="line1">LAYOVER Coffee — In Transit</div>
+      <div>+63 956 358 5888</div>
+      <div>Bldg 16, unit 115 Urban Deca Homes<br>Hernan Cortes, Mandaue Cebu City</div>
+    </div>
+  `;
+}
+
+function renderStaffCheckIn(state) {
+  const readyForReward = state.stamps >= 12;
+  app.innerHTML = `
+    <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee — Staff</strong></div>
+    <div class="staff-box">
+      <h2>${escapeHtml(state.name)} — ${state.stamps}/12 stamps</h2>
+      ${state.bonusThisVisit ? `<div class="msg ok">Bonus this visit: ${state.bonusThisVisit}</div>` : ''}
+      <input id="pin" type="password" inputmode="numeric" placeholder="Staff PIN">
+      ${readyForReward
+        ? `<button class="btn gold" id="redeemBtn">Redeem Free Coffee/Treat &amp; Reset</button>`
+        : `<button class="btn primary" id="stampBtn">+ Add 1 Stamp</button>`}
+      <div id="staffMsg" class="msg"></div>
+    </div>
+  `;
+  const msg = document.getElementById('staffMsg');
+  const pin = () => document.getElementById('pin').value;
+  const stampBtn = document.getElementById('stampBtn');
+  if (stampBtn) stampBtn.onclick = async () => {
+    msg.textContent = 'Adding…'; msg.className = 'msg';
+    const res = await callApi({ action: 'addStamp', code: state.code, pin: pin() });
+    if (res.ok) { renderStaffCheckIn(res); }
+    else { msg.textContent = res.error; msg.className = 'msg error'; }
+  };
+  const redeemBtn = document.getElementById('redeemBtn');
+  if (redeemBtn) redeemBtn.onclick = async () => {
+    msg.textContent = 'Redeeming…'; msg.className = 'msg';
+    const res = await callApi({ action: 'redeem', code: state.code, pin: pin() });
+    if (res.ok) { renderStaffCheckIn(res); }
+    else { msg.textContent = res.error; msg.className = 'msg error'; }
+  };
+}
+
+function renderSignup() {
+  app.innerHTML = `
+    <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee — Staff</strong></div>
+    <div class="staff-box">
+      <h2>New Loyalty Card</h2>
+      <input id="custName" placeholder="Customer name">
+      <input id="custPhone" placeholder="Phone (optional)">
+      <input id="pin" type="password" inputmode="numeric" placeholder="Staff PIN">
+      <button class="btn primary" id="createBtn">Create Card</button>
+      <div id="staffMsg" class="msg"></div>
+    </div>
+  `;
+  document.getElementById('createBtn').onclick = async () => {
+    const msg = document.getElementById('staffMsg');
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const pin = document.getElementById('pin').value;
+    if (!name) { msg.textContent = 'Name is required'; msg.className = 'msg error'; return; }
+    msg.textContent = 'Creating…'; msg.className = 'msg';
+    const res = await callApi({ action: 'newCustomer', name, phone, pin });
+    if (res.ok) {
+      const link = pageUrl({ code: res.code });
+      app.innerHTML = `
+        <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee — Staff</strong></div>
+        <div class="staff-box">
+          <h2>Card created for ${escapeHtml(res.name)}</h2>
+          <p style="font-size:13px;">Code: <b>${res.code}</b></p>
+          <p style="font-size:13px;word-break:break-all;">${link}</p>
+          <button class="btn primary" id="copyBtn">Copy Link</button>
+          <button class="btn gold" id="anotherBtn">Create Another</button>
+        </div>`;
+      document.getElementById('copyBtn').onclick = () => navigator.clipboard.writeText(link);
+      document.getElementById('anotherBtn').onclick = () => { location.href = pageUrl({ staff: '1' }); };
+    } else { msg.textContent = res.error; msg.className = 'msg error'; }
+  };
+}
+
+async function callApi(paramsObj) {
+  const url = API_URL + '?' + new URLSearchParams(paramsObj).toString();
+  try {
+    const res = await fetch(url);
+    return await res.json();
+  } catch (e) {
+    return { ok: false, error: 'Network error — check your connection' };
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+(async function init() {
+  if (isStaff && !code) { renderSignup(); return; }
+  if (!code) {
+    app.innerHTML = '<div class="not-found">No loyalty code found in this link.<br>Ask staff for your Layover Loyalty link.</div>';
+    return;
+  }
+  const state = await callApi({ action: 'lookup', code });
+  if (!state.ok) {
+    app.innerHTML = `<div class="not-found">${escapeHtml(state.error || 'Card not found')}</div>`;
+    return;
+  }
+  if (isStaff) renderStaffCheckIn(state); else renderCustomer(state);
+})();
+</script>
+</body>
+</html>
