@@ -17,7 +17,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Layover Loyalty Pass</title>
+<title>Layover Loyalty Stamp</title>
 <!-- Add-to-Home-Screen support: lets a customer save THEIR OWN link (?code=XXXX and all) as
      an icon on their phone home screen, so the card is a one-tap-away shortcut instead of a
      browser bookmark they might lose track of. Deliberately no <link rel="manifest"> here —
@@ -124,7 +124,7 @@
 // EDIT ME: replace with the deployed Apps Script web app /exec URL (see Code.gs in this folder)
 const API_URL = 'https://script.google.com/macros/s/AKfycbzSb1aF8xpiuXebxyjXCJxLETBC2jhobBk-B5XguqNkQr7orHpTeSQNbmOKqc6Dk68zng/exec';
 
-// Stamp-number -> reward label. Matches the physical Layover Loyalty Pass card.
+// Stamp-number -> reward label. Matches the physical Layover Loyalty Stamp card.
 const MILESTONE_LABELS = { 3: 'Extra Scoop', 6: 'Free Add-Ons', 7: '10% Off', 10: 'Free Vanilla Latte', 12: 'Free Coffee/Treat' };
 
 const qs = new URLSearchParams(location.search);
@@ -180,7 +180,7 @@ function renderCustomer(state) {
     <div class="card">
       <div class="card-head">
         <div>
-          <div class="title">LAYOVER LOYALTY PASS</div>
+          <div class="title">LAYOVER LOYALTY STAMP</div>
           <div class="sub">Drinks &amp; Treats</div>
         </div>
         <div class="plane">&#9992;</div>
@@ -219,13 +219,13 @@ function renderCustomer(state) {
         <li>One reward/redemption per transaction only.</li>
         <li>Rewards cannot be combined with other promotions or discounts (PWD/Senior).</li>
         <li>Lost loyalty codes will not be replaced or transferred.</li>
-        <li>Loyalty cards are applicable for walk-in customers only.</li>
+        <li>Loyalty cards are applicable for walk-in and direct online (message us) orders only.</li>
       </ul>
       <h4>Exclusions</h4>
       <ul>
         <li>Pastries and ready-to-eat items.</li>
         <li>Substituted milk options or free add-ons.</li>
-        <li>Delivery orders / online transactions.</li>
+        <li>GrabFood / Foodpanda delivery orders.</li>
       </ul>
     </div>
 
