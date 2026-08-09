@@ -82,36 +82,12 @@
 
     .footer { text-align: center; font-size: 13px; color: var(--muted); margin-top: 22px; }
     .footer .line1 { color: var(--blue); font-weight: 600; margin-bottom: 2px; }
-
-    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 22px 0 28px; }
-    .gallery img {
-      width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px;
-      display: block; box-shadow: 0 2px 8px rgba(28,36,56,0.15);
-    }
-    .gallery-caption { font-size: 10.5px; color: var(--muted); text-align: center; margin-top: 5px; line-height: 1.25; }
   </style>
 </head>
 <body>
   <div class="page">
     <img class="logo" src="logo.png" alt="Layover Coffee">
     <p class="tagline">Your next stop for coffee and treats.</p>
-
-    <!-- Real shop photos (from the owner's own photos, resized for web). Purely visual —
-         not linked to anything — to give the page some warmth beyond the button list. -->
-    <div class="gallery">
-      <div>
-        <img src="photos/brownies.jpg" alt="Classic Brownies">
-        <div class="gallery-caption">Classic Brownies</div>
-      </div>
-      <div>
-        <img src="photos/milo-mountain-halo-halo.jpg" alt="Milo Mountain Halo-Halo">
-        <div class="gallery-caption">Milo Mountain Halo-Halo</div>
-      </div>
-      <div>
-        <img src="photos/biscoff-brownies.jpg" alt="Biscoff Brownies">
-        <div class="gallery-caption">Biscoff Brownies</div>
-      </div>
-    </div>
 
     <!-- Flight of the Month: evergreen, doesn't need editing when the season changes —
          it just asks in Messenger, and whoever answers there says what this month's
@@ -152,6 +128,10 @@
     <a class="link-btn" href="https://m.me/layovercoffee?text=Hi!%20I%20have%20a%20question.">
       <div class="title">💭 Ask a Question</div>
       <div class="sub">Custom orders, catering, anything else</div>
+    </a>
+    <a class="link-btn" href="https://m.me/layovercoffee?text=Hi!%20I%27d%20like%20to%20join%20the%20Layover%20Loyalty%20program%20%E2%98%95">
+      <div class="title">✈️ Join Layover Loyalty</div>
+      <div class="sub">Collect stamps in-store, get free drinks & treats — message to join</div>
     </a>
 
     <!-- EDIT ME: delete any <a> below for a social you don't have yet. -->
