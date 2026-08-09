@@ -320,11 +320,16 @@ function renderSignup() {
     const res = await callApi({ action: 'newCustomer', name, phone, pin });
     if (res.ok) {
       const link = pageUrl({ code: res.code });
+      const signupQr = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(link);
       app.innerHTML = `
         <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee — Staff</strong></div>
         <div class="staff-box">
           <h2>Card created for ${escapeHtml(res.name)}</h2>
           <p style="font-size:13px;">Code: <b>${res.code}</b></p>
+          <div class="qr-wrap">
+            <img src="${signupQr}" alt="Customer card QR">
+            <div class="hint">Have the customer scan this with their phone camera to open their card</div>
+          </div>
           <p style="font-size:13px;word-break:break-all;">${link}</p>
           <button class="btn primary" id="copyBtn">Copy Link</button>
           <button class="btn gold" id="anotherBtn">Create Another</button>
