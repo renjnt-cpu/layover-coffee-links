@@ -1,9 +1,14 @@
 <!-- Layover Coffee — digital loyalty card. Fully standalone from the POS automation-system:
      talks only to its own dedicated Apps Script backend (a new "Layover Loyalty" sheet/project,
-     not "Layover Coffee Ops"). One file, two views, switched by URL params:
-       ?code=XXXX            -> customer view (their card + a QR staff can scan to add a stamp)
-       ?code=XXXX&staff=1    -> staff check-in view (add a stamp / redeem the free-drink reward)
-       ?staff=1              -> staff sign-up view (create a brand-new card, get a code + link)
+     not "Layover Coffee Ops"). One file, several views, switched by URL params:
+       ?code=XXXX               -> customer view (their card + a QR staff can scan to add a stamp)
+       ?code=XXXX&staff=1       -> staff check-in view (add a stamp / redeem / reactivate)
+       ?staff=1                 -> staff sign-up view (create a brand-new card, get a code + link)
+       ?staff=1&broadcast=1     -> staff promo-blast view (queue a message to every active customer)
+
+     A customer's Code/link never changes and never expires — it's a permanent row in the
+     Customers sheet tab. The only way it stops working is if the customer deactivates it
+     themselves (see the "Deactivate my card" link on their own card) or staff reactivates it.
 
      EDIT ME: API_URL below, once the Apps Script backend (see Code.gs) is deployed.
      logo.png must stay in the same folder as this file (same one the funnel page uses). -->
@@ -11,8 +16,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Layover Loyalty Pass</title>
+<!-- Add-to-Home-Screen support: lets a customer save THEIR OWN link (?code=XXXX and all) as
+     an icon on their phone home screen, so the card is a one-tap-away shortcut instead of a
+     browser bookmark they might lose track of. Deliberately no <link rel="manifest"> here —
+     a manifest's start_url can override the page's current URL on Android's "Install app"
+     flow, which would strip the customer's own ?code= and defeat the point. Plain "Add to
+     Home Screen" (no manifest) reliably keeps the exact current URL on both iOS and Android. -->
+<meta name="theme-color" content="#1e3fae">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Layover Loyalty">
+<link rel="apple-touch-icon" href="logo.png">
 <style>
   :root {
     --blue: #1e3fae; --blue-dark: #142b78; --ink: #1c2438; --line: #dbe2f2; --muted: #6b7488;
@@ -88,6 +104,15 @@
   .msg.error { color:#b3261e; }
   .msg.ok { color:#1a7f37; }
   .loading, .not-found { text-align:center; padding: 60px 20px; color: var(--muted); font-size: 14px; }
+
+  .text-link {
+    display:block; text-align:center; font-size: 12px; color: var(--muted);
+    text-decoration: underline; background:none; border:none; cursor:pointer; margin-top: 18px; width:100%;
+  }
+  textarea.promo-input {
+    width:100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px;
+    font-size: 14px; margin-bottom: 10px; font-family: inherit; resize: vertical;
+  }
 </style>
 </head>
 <body>
@@ -105,6 +130,7 @@ const MILESTONE_LABELS = { 3: 'Extra Scoop', 6: 'Free Add-Ons', 7: '10% Off', 10
 const qs = new URLSearchParams(location.search);
 const code = qs.get('code');
 const isStaff = qs.get('staff') === '1';
+const isBroadcast = qs.get('broadcast') === '1';
 const app = document.getElementById('app');
 
 function pageUrl(extra) {
@@ -130,7 +156,23 @@ function nextRewardText(state) {
   return `<b>${left}</b> more stamp${left === 1 ? '' : 's'} for <b>${state.nextReward}</b>`;
 }
 
+function renderCancelled(state) {
+  app.innerHTML = `
+    <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee</strong></div>
+    <div class="staff-box">
+      <h2>This card has been deactivated</h2>
+      <p style="font-size:13px;color:var(--muted);">${escapeHtml(state.name)}'s loyalty card (${escapeHtml(state.code)}) is no longer active. Message us if this wasn't you, or to reactivate it.</p>
+    </div>
+    <div class="footer">
+      <div class="line1">LAYOVER Coffee — In Transit</div>
+      <div>+63 956 358 5888</div>
+      <div>Bldg 16, unit 115 Urban Deca Homes<br>Hernan Cortes, Mandaue Cebu City</div>
+    </div>
+  `;
+}
+
 function renderCustomer(state) {
+  if (state.cancelled) { renderCancelled(state); return; }
   const qrTarget = pageUrl({ code: state.code, staff: '1' });
   const qrImg = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=' + encodeURIComponent(qrTarget);
   app.innerHTML = `
@@ -166,6 +208,11 @@ function renderCustomer(state) {
       </ul>
     </div>
 
+    <div class="rewards">
+      <h3>Never Lose This Card</h3>
+      <p style="font-size:13px;margin:0;">Add it to your phone's home screen so it's always one tap away: on iPhone tap <b>Share</b> then <b>Add to Home Screen</b>; on Android tap the <b>⋮ menu</b> then <b>Add to Home screen</b>.</p>
+    </div>
+
     <div class="fine-print">
       <h4>Terms &amp; Conditions</h4>
       <ul>
@@ -187,10 +234,37 @@ function renderCustomer(state) {
       <div>+63 956 358 5888</div>
       <div>Bldg 16, unit 115 Urban Deca Homes<br>Hernan Cortes, Mandaue Cebu City</div>
     </div>
+
+    <button class="text-link" id="cancelCardBtn">Deactivate my loyalty card</button>
   `;
+  document.getElementById('cancelCardBtn').onclick = async () => {
+    if (!confirm('Deactivate this loyalty card? You can ask staff to reactivate it later, but it will stop working until then.')) return;
+    const res = await callApi({ action: 'cancel', code: state.code });
+    if (res.ok) renderCancelled(res);
+  };
 }
 
 function renderStaffCheckIn(state) {
+  if (state.cancelled) {
+    app.innerHTML = `
+      <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee — Staff</strong></div>
+      <div class="staff-box">
+        <h2>${escapeHtml(state.name)} — card deactivated</h2>
+        <input id="pin" type="password" inputmode="numeric" placeholder="Staff PIN">
+        <button class="btn primary" id="reactivateBtn">Reactivate Card</button>
+        <div id="staffMsg" class="msg"></div>
+      </div>
+    `;
+    const msg = document.getElementById('staffMsg');
+    document.getElementById('reactivateBtn').onclick = async () => {
+      msg.textContent = 'Reactivating…'; msg.className = 'msg';
+      const res = await callApi({ action: 'reactivate', code: state.code, pin: document.getElementById('pin').value });
+      if (res.ok) { renderStaffCheckIn(res); }
+      else { msg.textContent = res.error; msg.className = 'msg error'; }
+    };
+    return;
+  }
+
   const readyForReward = state.stamps >= 12;
   app.innerHTML = `
     <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee — Staff</strong></div>
@@ -233,7 +307,9 @@ function renderSignup() {
       <button class="btn primary" id="createBtn">Create Card</button>
       <div id="staffMsg" class="msg"></div>
     </div>
+    <button class="text-link" id="toBroadcastBtn">Send a Promo Blast instead</button>
   `;
+  document.getElementById('toBroadcastBtn').onclick = () => { location.href = pageUrl({ staff: '1', broadcast: '1' }); };
   document.getElementById('createBtn').onclick = async () => {
     const msg = document.getElementById('staffMsg');
     const name = document.getElementById('custName').value.trim();
@@ -259,6 +335,32 @@ function renderSignup() {
   };
 }
 
+function renderBroadcast() {
+  app.innerHTML = `
+    <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee — Staff</strong></div>
+    <div class="staff-box">
+      <h2>Send a Promo Blast</h2>
+      <p style="font-size:12px;color:var(--muted);margin-top:-6px;">Queues this message for every active customer with a phone number. No SMS provider is connected yet — after queueing, open the <b>Notifications</b> tab in the Layover Loyalty sheet and send each one manually (SMS/Messenger). Cancelled cards are skipped automatically.</p>
+      <textarea id="promoMsg" class="promo-input" rows="4" placeholder="e.g. Flight of the Month is back this week — buy 1 take 1 on iced lattes, today only!"></textarea>
+      <input id="pin" type="password" inputmode="numeric" placeholder="Staff PIN">
+      <button class="btn primary" id="sendBtn">Queue to All Active Customers</button>
+      <div id="staffMsg" class="msg"></div>
+    </div>
+    <button class="text-link" id="toSignupBtn">Create a New Card instead</button>
+  `;
+  document.getElementById('toSignupBtn').onclick = () => { location.href = pageUrl({ staff: '1' }); };
+  document.getElementById('sendBtn').onclick = async () => {
+    const msg = document.getElementById('staffMsg');
+    const message = document.getElementById('promoMsg').value.trim();
+    const pin = document.getElementById('pin').value;
+    if (!message) { msg.textContent = 'Message is required'; msg.className = 'msg error'; return; }
+    msg.textContent = 'Queueing…'; msg.className = 'msg';
+    const res = await callApi({ action: 'broadcast', message, pin });
+    if (res.ok) { msg.textContent = `Queued for ${res.queued} customer${res.queued === 1 ? '' : 's'} — check the Notifications tab.`; msg.className = 'msg ok'; }
+    else { msg.textContent = res.error; msg.className = 'msg error'; }
+  };
+}
+
 async function callApi(paramsObj) {
   const url = API_URL + '?' + new URLSearchParams(paramsObj).toString();
   try {
@@ -274,6 +376,7 @@ function escapeHtml(s) {
 }
 
 (async function init() {
+  if (isStaff && isBroadcast) { renderBroadcast(); return; }
   if (isStaff && !code) { renderSignup(); return; }
   if (!code) {
     app.innerHTML = '<div class="not-found">No loyalty code found in this link.<br>Ask staff for your Layover Loyalty link.</div>';
