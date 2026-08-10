@@ -146,6 +146,7 @@ const code = qs.get('code');
 const isStaff = qs.get('staff') === '1';
 const isBroadcast = qs.get('broadcast') === '1';
 const isSelfStamp = qs.get('selfstamp') === '1';
+const isSelfSignup = qs.get('signup') === '1';
 const app = document.getElementById('app');
 
 function pageUrl(extra) {
@@ -371,6 +372,37 @@ function renderSignup() {
   };
 }
 
+function renderSelfSignup() {
+  app.innerHTML = `
+    <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee</strong></div>
+    <div class="staff-box">
+      <h2>Join Layover Loyalty Stamp</h2>
+      <p style="font-size:13px;color:var(--muted);margin-top:-6px;">Get your own digital stamp card - earn free drinks and treats as you go.</p>
+      <input id="custName" placeholder="Your name">
+      <input id="custPhone" placeholder="Phone (optional)">
+      <div style="font-size:11px;color:var(--muted);margin:-4px 0 6px;">Birthday (optional) - for a birthday greeting</div>
+      <input id="custBirthday" type="date">
+      <button class="btn primary" id="joinBtn">Create My Card</button>
+      <div id="joinMsg" class="msg"></div>
+    </div>
+  `;
+  const msg = document.getElementById('joinMsg');
+  document.getElementById('joinBtn').onclick = async () => {
+    const name = document.getElementById('custName').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+    const birthdayRaw = document.getElementById('custBirthday').value;
+    const birthday = birthdayRaw ? birthdayRaw.slice(5) : '';
+    if (!name) { msg.textContent = 'Please enter your name'; msg.className = 'msg error'; return; }
+    msg.textContent = 'Creating your card…'; msg.className = 'msg';
+    const res = await callApi({ action: 'selfSignup', name, phone, birthday });
+    if (res.ok) {
+      location.href = pageUrl({ code: res.code });
+    } else {
+      msg.textContent = res.error; msg.className = 'msg error';
+    }
+  };
+}
+
 function renderSelfStamp() {
   const savedCode = localStorage.getItem('layoverLoyaltyCode') || '';
   app.innerHTML = `
@@ -443,6 +475,7 @@ function escapeHtml(s) {
 }
 
 (async function init() {
+  if (isSelfSignup) { renderSelfSignup(); return; }
   if (isSelfStamp) { renderSelfStamp(); return; }
   if (isStaff && isBroadcast) { renderBroadcast(); return; }
   if (isStaff && !code) { renderSignup(); return; }
