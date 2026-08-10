@@ -54,8 +54,14 @@
   }
   .card-head { display:flex; justify-content: space-between; align-items:flex-start; }
   .card-head .title { font-size: 17px; font-weight: 800; letter-spacing: 0.4px; }
+  .card-head .right { text-align: right; }
   .card-head .plane { font-size: 20px; }
   .card-head .sub { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+  .card-head .counter {
+    font-size: 12px; font-weight: 800; margin-top: 5px;
+    background: rgba(255,255,255,0.18); border-radius: 20px;
+    padding: 3px 10px; display:inline-block; white-space:nowrap;
+  }
 
   .ticket-divider {
     border-top: 1.5px dashed rgba(255,255,255,0.35);
@@ -199,7 +205,10 @@ function renderCustomer(state) {
           <div class="title">LAYOVER LOYALTY STAMP</div>
           <div class="sub">Drinks &amp; Treats</div>
         </div>
-        <div class="plane">&#9992;</div>
+        <div class="right">
+          <div class="plane">&#9992;</div>
+          <div class="counter">${state.stamps}/12</div>
+        </div>
       </div>
       <div class="ticket-divider">Boarding Pass &middot; Layover Coffee</div>
       <div class="name-row">
