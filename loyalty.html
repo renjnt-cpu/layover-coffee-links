@@ -47,6 +47,7 @@
 
   .card {
     background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    background-size: cover; background-position: center;
     border-radius: 18px; padding: 20px; color: #fff;
     box-shadow: 0 10px 24px rgba(20,43,120,0.25);
     border-top: 4px solid var(--gold);
@@ -178,13 +179,21 @@ function renderCancelled(state) {
   `;
 }
 
+// Card background rotates through real product shots on every load, tinted with
+// the brand blue gradient (photo alone is too busy behind stamps/QR/white text).
+const CARD_PHOTOS = ['photos/brownies.jpg', 'photos/milo-mountain-halo-halo.jpg', 'photos/biscoff-brownies.jpg'];
+function randomCardBackground() {
+  const photo = CARD_PHOTOS[Math.floor(Math.random() * CARD_PHOTOS.length)];
+  return `linear-gradient(135deg, rgba(30,63,174,0.88), rgba(20,43,120,0.92)), url('${photo}')`;
+}
+
 function renderCustomer(state) {
   if (state.cancelled) { renderCancelled(state); return; }
   const qrTarget = pageUrl({ code: state.code, staff: '1' });
   const qrImg = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=' + encodeURIComponent(qrTarget);
   app.innerHTML = `
     <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee</strong></div>
-    <div class="card">
+    <div class="card" style="background-image: ${randomCardBackground()}">
       <div class="card-head">
         <div>
           <div class="title">LAYOVER LOYALTY STAMP</div>
