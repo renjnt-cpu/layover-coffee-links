@@ -49,11 +49,18 @@
     background: linear-gradient(135deg, var(--blue), var(--blue-dark));
     border-radius: 18px; padding: 20px; color: #fff;
     box-shadow: 0 10px 24px rgba(20,43,120,0.25);
+    border-top: 4px solid var(--gold);
   }
   .card-head { display:flex; justify-content: space-between; align-items:flex-start; }
   .card-head .title { font-size: 17px; font-weight: 800; letter-spacing: 0.4px; }
   .card-head .plane { font-size: 20px; }
   .card-head .sub { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+
+  .ticket-divider {
+    border-top: 1.5px dashed rgba(255,255,255,0.35);
+    margin-top: 14px; padding-top: 8px;
+    font-size: 10px; letter-spacing: 1px; opacity: 0.65; text-transform: uppercase;
+  }
 
   .name-row {
     margin-top: 16px; background: rgba(255,255,255,0.12); border-radius: 10px;
@@ -185,6 +192,7 @@ function renderCustomer(state) {
         </div>
         <div class="plane">&#9992;</div>
       </div>
+      <div class="ticket-divider">Boarding Pass &middot; Layover Coffee</div>
       <div class="name-row">
         <div class="label">Passenger Name</div>
         <div class="value">${escapeHtml(state.name)}</div>
