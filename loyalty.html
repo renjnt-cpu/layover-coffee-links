@@ -145,6 +145,7 @@ const qs = new URLSearchParams(location.search);
 const code = qs.get('code');
 const isStaff = qs.get('staff') === '1';
 const isBroadcast = qs.get('broadcast') === '1';
+const isSelfStamp = qs.get('selfstamp') === '1';
 const app = document.getElementById('app');
 
 function pageUrl(extra) {
@@ -370,6 +371,37 @@ function renderSignup() {
   };
 }
 
+function renderSelfStamp() {
+  const savedCode = localStorage.getItem('layoverLoyaltyCode') || '';
+  app.innerHTML = `
+    <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee</strong></div>
+    <div class="staff-box">
+      <h2>Add Your Stamp</h2>
+      <p style="font-size:13px;color:var(--muted);margin-top:-6px;">Enter the loyalty code from your card to add a stamp for this visit.</p>
+      <input id="selfCode" placeholder="Your loyalty code" value="${escapeHtml(savedCode)}" style="text-transform:uppercase;">
+      <button class="btn primary" id="selfStampBtn">Add My Stamp</button>
+      <div id="selfMsg" class="msg"></div>
+    </div>
+  `;
+  const msg = document.getElementById('selfMsg');
+  document.getElementById('selfStampBtn').onclick = async () => {
+    const code = document.getElementById('selfCode').value.trim().toUpperCase();
+    if (!code) { msg.textContent = 'Enter your loyalty code'; msg.className = 'msg error'; return; }
+    msg.textContent = 'Adding your stamp…'; msg.className = 'msg';
+    const res = await callApi({ action: 'selfStamp', code });
+    if (res.ok) {
+      localStorage.setItem('layoverLoyaltyCode', code);
+      msg.textContent = res.bonusThisVisit
+        ? `Stamp added! ${res.stamps}/12 — you unlocked ${res.bonusThisVisit}!`
+        : `Stamp added! Now at ${res.stamps}/12.`;
+      msg.className = 'msg ok';
+    } else {
+      msg.textContent = res.error;
+      msg.className = 'msg error';
+    }
+  };
+}
+
 function renderBroadcast() {
   app.innerHTML = `
     <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee — Staff</strong></div>
@@ -411,6 +443,7 @@ function escapeHtml(s) {
 }
 
 (async function init() {
+  if (isSelfStamp) { renderSelfStamp(); return; }
   if (isStaff && isBroadcast) { renderBroadcast(); return; }
   if (isStaff && !code) { renderSignup(); return; }
   if (!code) {
