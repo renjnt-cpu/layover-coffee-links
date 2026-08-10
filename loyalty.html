@@ -320,6 +320,8 @@ function renderSignup() {
       <h2>New Loyalty Card</h2>
       <input id="custName" placeholder="Customer name">
       <input id="custPhone" placeholder="Phone (optional)">
+      <div style="font-size:11px;color:var(--muted);margin:-4px 0 6px;">Birthday (optional) — for a birthday greeting</div>
+      <input id="custBirthday" type="date">
       <input id="pin" type="password" inputmode="numeric" placeholder="Staff PIN">
       <button class="btn primary" id="createBtn">Create Card</button>
       <div id="staffMsg" class="msg"></div>
@@ -331,10 +333,12 @@ function renderSignup() {
     const msg = document.getElementById('staffMsg');
     const name = document.getElementById('custName').value.trim();
     const phone = document.getElementById('custPhone').value.trim();
+    const birthdayRaw = document.getElementById('custBirthday').value; // 'YYYY-MM-DD' or ''
+    const birthday = birthdayRaw ? birthdayRaw.slice(5) : ''; // 'MM-DD'
     const pin = document.getElementById('pin').value;
     if (!name) { msg.textContent = 'Name is required'; msg.className = 'msg error'; return; }
     msg.textContent = 'Creating…'; msg.className = 'msg';
-    const res = await callApi({ action: 'newCustomer', name, phone, pin });
+    const res = await callApi({ action: 'newCustomer', name, phone, pin, birthday });
     if (res.ok) {
       const link = pageUrl({ code: res.code });
       const signupQr = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(link);
