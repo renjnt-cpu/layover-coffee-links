@@ -117,6 +117,11 @@
   .msg { font-size: 13px; margin-top: 8px; text-align:center; min-height: 16px; }
   .msg.error { color:#b3261e; }
   .msg.ok { color:#1a7f37; }
+  .stamp-success {
+    background: #e6f7ec; border: 1px solid #1a7f37; color: #1a7f37;
+    border-radius: 10px; padding: 10px 12px; font-size: 15px; font-weight: 700;
+    text-align: center; margin-bottom: 12px;
+  }
   .loading, .not-found { text-align:center; padding: 60px 20px; color: var(--muted); font-size: 14px; }
 
   .text-link {
@@ -272,7 +277,7 @@ function renderCustomer(state) {
   };
 }
 
-function renderStaffCheckIn(state) {
+function renderStaffCheckIn(state, justAdded) {
   if (state.cancelled) {
     app.innerHTML = `
       <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee — Staff</strong></div>
@@ -297,6 +302,7 @@ function renderStaffCheckIn(state) {
   app.innerHTML = `
     <div class="logo-row"><img src="logo.png" alt=""><strong>Layover Coffee — Staff</strong></div>
     <div class="staff-box">
+      ${justAdded ? `<div class="stamp-success">&#9989; Stamp added successfully!</div>` : ''}
       <h2>${escapeHtml(state.name)} — ${state.stamps}/12 stamps</h2>
       ${state.bonusThisVisit ? `<div class="msg ok">Bonus this visit: ${state.bonusThisVisit}</div>` : ''}
       <input id="pin" type="password" inputmode="numeric" placeholder="Staff PIN">
@@ -312,7 +318,7 @@ function renderStaffCheckIn(state) {
   if (stampBtn) stampBtn.onclick = async () => {
     msg.textContent = 'Adding…'; msg.className = 'msg';
     const res = await callApi({ action: 'addStamp', code: state.code, pin: pin() });
-    if (res.ok) { renderStaffCheckIn(res); }
+    if (res.ok) { renderStaffCheckIn(res, true); }
     else { msg.textContent = res.error; msg.className = 'msg error'; }
   };
   const redeemBtn = document.getElementById('redeemBtn');
