@@ -29,7 +29,21 @@
       background: #ffffff;
       color: var(--ink);
       display: flex; justify-content: center;
+      position: relative; overflow-x: hidden;
     }
+
+    /* Slowly rotating background photo (real shop photo, not stock) — fixed, oversized,
+       low-opacity so it stays ambient and never fights with text/card readability.
+       Respects prefers-reduced-motion by simply not animating for those users. */
+    .bg-rotate {
+      position: fixed; top: 50%; left: 50%; width: 780px; height: 780px;
+      margin: -390px 0 0 -390px; z-index: -1; border-radius: 50%;
+      background-image: url('photos/bg-rotate.jpg'); background-size: cover; background-position: center;
+      opacity: 0.10; animation: bgRotate 100s linear infinite;
+    }
+    @keyframes bgRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @media (prefers-reduced-motion: reduce) { .bg-rotate { animation: none; } }
+
     .page { width: 100%; max-width: 420px; padding: 40px 20px 40px; }
 
     .logo { display: block; width: 55%; max-width: 230px; height: auto; margin: 0 auto; }
@@ -104,6 +118,7 @@
   </style>
 </head>
 <body>
+  <div class="bg-rotate" aria-hidden="true"></div>
   <div class="page">
     <img class="logo" src="logo.png" alt="Layover Coffee">
     <p class="tagline">Your next stop for coffee and treats.</p>
