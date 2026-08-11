@@ -71,6 +71,25 @@
     }
     .link-btn.primary:active { box-shadow: 0 6px 14px rgba(30,63,174,0.25); transform: translateY(3px); }
     .link-btn.primary .sub { color: rgba(255,255,255,0.85); }
+    button.link-btn { width: 100%; font: inherit; cursor: pointer; appearance: none; -webkit-appearance: none; }
+
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(28,36,56,0.55);
+      align-items: center; justify-content: center; padding: 20px; z-index: 50;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      background: #fff; border-radius: 16px; padding: 26px 22px; max-width: 320px; width: 100%;
+      text-align: center; box-shadow: 0 14px 34px rgba(0,0,0,0.28);
+    }
+    .modal-card h2 { font-size: 17px; margin: 0 0 4px; color: var(--ink); }
+    .modal-card .modal-sub { font-size: 13px; color: var(--muted); margin: 0 0 16px; }
+    .modal-card img.qr { width: 200px; height: 200px; border-radius: 10px; margin-bottom: 14px; }
+    .modal-card .modal-hint { font-size: 12px; color: var(--muted); margin: 0 0 18px; }
+    .modal-close {
+      display: inline-block; background: var(--blue); color: #fff; border: none;
+      border-radius: 10px; padding: 10px 26px; font-size: 14px; font-weight: 700; cursor: pointer;
+    }
 
     .social { display: flex; justify-content: center; gap: 14px; margin: 28px 0 8px; }
     .social a {
@@ -129,10 +148,10 @@
       <div class="title">💭 Ask a Question</div>
       <div class="sub">Custom orders, catering, anything else</div>
     </a>
-    <a class="link-btn" href="https://m.me/layovercoffee?text=Hi!%20I%27d%20like%20to%20join%20the%20Layover%20Loyalty%20Stamp%20%E2%98%95">
+    <button type="button" class="link-btn" id="joinLoyaltyBtn">
       <div class="title">✈️ Join Layover Loyalty Stamp</div>
-      <div class="sub">Collect stamps in-store, get free drinks & treats — message to join</div>
-    </a>
+      <div class="sub">Collect stamps in-store, get free drinks &amp; treats — scan to join</div>
+    </button>
 
     <!-- EDIT ME: delete any <a> below for a social you don't have yet. -->
     <div class="social">
@@ -152,5 +171,23 @@
       <div>See you at Layover ☕</div>
     </div>
   </div>
+
+  <div class="modal-overlay" id="loyaltyModal">
+    <div class="modal-card">
+      <h2>Scan to Join Loyalty Stamp</h2>
+      <p class="modal-sub">Get your own digital stamp card</p>
+      <img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https%3A%2F%2Frenjnt-cpu.github.io%2Flayover-coffee-links%2Floyalty.html%3Fsignup%3D1" alt="Scan to join Layover Loyalty Stamp">
+      <p class="modal-hint">Point your phone camera at this code to open the sign-up page.</p>
+      <button type="button" class="modal-close" id="loyaltyModalClose">Done</button>
+    </div>
+  </div>
+
+  <script>
+    const joinLoyaltyBtn = document.getElementById('joinLoyaltyBtn');
+    const loyaltyModal = document.getElementById('loyaltyModal');
+    joinLoyaltyBtn.addEventListener('click', () => loyaltyModal.classList.add('open'));
+    document.getElementById('loyaltyModalClose').addEventListener('click', () => loyaltyModal.classList.remove('open'));
+    loyaltyModal.addEventListener('click', (e) => { if (e.target === loyaltyModal) loyaltyModal.classList.remove('open'); });
+  </script>
 </body>
 </html>
