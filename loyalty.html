@@ -468,11 +468,16 @@ function renderBroadcast() {
 
 async function callApi(paramsObj) {
   const url = API_URL + '?' + new URLSearchParams(paramsObj).toString();
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: controller.signal });
     return await res.json();
   } catch (e) {
-    return { ok: false, error: 'Network error — check your connection' };
+    const timedOut = e.name === 'AbortError';
+    return { ok: false, error: timedOut ? 'This is taking too long — check your connection and try again.' : 'Network error — check your connection' };
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
