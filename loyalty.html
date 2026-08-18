@@ -349,7 +349,7 @@ function renderSignup() {
     <div class="staff-box">
       <h2>New Loyalty Card</h2>
       <input id="custName" placeholder="Customer name">
-      <input id="custPhone" placeholder="Phone (optional)">
+      <input id="custPhone" placeholder="Phone number" inputmode="tel">
       <div style="font-size:11px;color:var(--muted);margin:-4px 0 6px;">Birthday (optional) — for a birthday greeting</div>
       <input id="custBirthday" type="date">
       <input id="pin" type="password" inputmode="numeric" placeholder="Staff PIN">
@@ -367,6 +367,7 @@ function renderSignup() {
     const birthday = birthdayRaw ? birthdayRaw.slice(5) : ''; // 'MM-DD'
     const pin = document.getElementById('pin').value;
     if (!name) { msg.textContent = 'Name is required'; msg.className = 'msg error'; return; }
+    if (!phone) { msg.textContent = 'Phone number is required'; msg.className = 'msg error'; return; }
     msg.textContent = 'Creating…'; msg.className = 'msg';
     const res = await callApi({ action: 'newCustomer', name, phone, pin, birthday });
     if (res.ok) {
@@ -398,7 +399,7 @@ function renderSelfSignup() {
       <h2>Join Layover Loyalty Stamp</h2>
       <p style="font-size:13px;color:var(--muted);margin-top:-6px;">Get your own digital stamp card - earn free drinks and treats as you go.</p>
       <input id="custName" placeholder="Your name">
-      <input id="custPhone" placeholder="Phone (optional)">
+      <input id="custPhone" placeholder="Phone number" inputmode="tel">
       <div style="font-size:11px;color:var(--muted);margin:-4px 0 6px;">Birthday (optional) - for a birthday greeting</div>
       <input id="custBirthday" type="date">
       <button class="btn primary" id="joinBtn">Create My Card</button>
@@ -412,6 +413,7 @@ function renderSelfSignup() {
     const birthdayRaw = document.getElementById('custBirthday').value;
     const birthday = birthdayRaw ? birthdayRaw.slice(5) : '';
     if (!name) { msg.textContent = 'Please enter your name'; msg.className = 'msg error'; return; }
+    if (!phone) { msg.textContent = 'Please enter your phone number'; msg.className = 'msg error'; return; }
     msg.textContent = 'Creating your card…'; msg.className = 'msg';
     const res = await callApi({ action: 'selfSignup', name, phone, birthday });
     if (res.ok) {
