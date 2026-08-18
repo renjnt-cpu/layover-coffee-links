@@ -167,7 +167,12 @@ function stampGrid(stamps) {
   for (let i = 1; i <= 12; i++) {
     const filled = i <= stamps;
     const label = MILESTONE_LABELS[i] || '';
-    html += `<div class="stamp ${filled ? 'filled' : ''}">${label || (filled ? '&#10003;' : i)}</div>`;
+    // Once a milestone stamp is filled, its bonus has already been given (bonuses are
+    // handed out the instant the stamp lands - see addStamp_/selfStamp_) - so show a
+    // checkmark like any other filled stamp instead of still displaying the reward name.
+    // The reward name only shows beforehand, as a preview of what's coming.
+    const content = filled ? '&#10003;' : (label || i);
+    html += `<div class="stamp ${filled ? 'filled' : ''}">${content}</div>`;
   }
   html += '</div>';
   return html;
