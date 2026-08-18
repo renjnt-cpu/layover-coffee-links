@@ -124,6 +124,11 @@
     border-radius: 10px; padding: 10px 12px; font-size: 15px; font-weight: 700;
     text-align: center; margin-bottom: 12px;
   }
+  .mini-card {
+    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    border-radius: 14px; padding: 14px; margin-top: 14px;
+  }
+  .mini-card .stamp-grid { margin: 0; }
   .loading, .not-found { text-align:center; padding: 60px 20px; color: var(--muted); font-size: 14px; }
 
   .text-link {
@@ -317,6 +322,7 @@ function renderStaffCheckIn(state, justAdded) {
         ? `<button class="btn gold" id="redeemBtn">Redeem Free Coffee/Treat &amp; Reset</button>`
         : `<button class="btn primary" id="stampBtn">+ Add 1 Stamp</button>`}
       <div id="staffMsg" class="msg"></div>
+      <div class="mini-card">${stampGrid(state.stamps)}</div>
     </div>
   `;
   const msg = document.getElementById('staffMsg');
