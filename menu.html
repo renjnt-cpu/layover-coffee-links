@@ -1,8 +1,10 @@
-<!-- Layover Coffee — menu page. Transcribed from the real menu board design (updated
-     version shared 2026-07-28, replacing the earlier Layover/1.jpg-3.jpg transcription).
-     Linked from index.html's "Menu & Prices" button. Same standalone, no-build, no-POS
-     setup as index.html — nearly the whole file is menu data, just edit names/prices
-     directly and re-push when the menu changes again. -->
+<!-- Layover Coffee — menu page. Deliberately price-free (owner's request, 2026-08-11):
+     shows item name + photo only, no prices — anyone asking price is routed to Messenger
+     to ask directly (matches the site's whole "message us" funnel philosophy). Items
+     without a real photo yet show a soft category-icon placeholder instead of a broken
+     image — swap `<img class="photo" src="photos/X.jpg">` in for any placeholder as real
+     photos come in (owner said more are coming). Same standalone, no-build, no-POS setup
+     as index.html. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,30 +27,37 @@
 
     .logo { display: block; width: 40%; max-width: 170px; height: auto; margin: 0 auto; }
     h1 { text-align: center; font-size: 26px; color: var(--blue); margin: 6px 0 2px; letter-spacing: 1px; }
-    .subtitle { text-align: center; font-size: 12.5px; color: var(--muted); margin: 0 0 24px; }
+    .subtitle { text-align: center; font-size: 12.5px; color: var(--muted); margin: 0 0 20px; }
 
     .cta {
       display: block; text-align: center; text-decoration: none;
       background: var(--blue); color: #fff; border: 1px solid var(--blue-dark);
       border-radius: 14px; padding: 16px; box-shadow: 0 3px 0 var(--blue-dark);
-      margin-bottom: 30px; font-weight: 700; font-size: 15px;
+      margin-bottom: 10px; font-weight: 700; font-size: 15px;
     }
     .cta:active { box-shadow: none; transform: translateY(3px); }
+    .cta-note { text-align: center; font-size: 12px; color: var(--muted); margin: 0 0 26px; }
 
-    h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue); border-bottom: 2px solid var(--line); padding-bottom: 6px; margin: 30px 0 4px; }
+    h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--blue); border-bottom: 2px solid var(--line); padding-bottom: 6px; margin: 30px 0 12px; }
     h2:first-of-type { margin-top: 0; }
-    h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.3px; color: var(--muted); margin: 16px 0 2px; }
+    h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.3px; color: var(--muted); margin: 18px 0 10px; }
 
-    .size-header { display: flex; align-items: baseline; padding: 6px 0 2px; font-size: 10.5px; color: var(--muted); text-transform: uppercase; }
-    .size-header .name { flex: 1; }
-    .size-header .p { width: 46px; text-align: right; flex-shrink: 0; }
+    .item-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 6px; }
+    .item-card { text-align: center; text-decoration: none; color: var(--ink); }
+    .item-card .photo {
+      width: 100%; aspect-ratio: 1; border-radius: 14px; object-fit: cover; display: block;
+      box-shadow: 0 1px 4px rgba(28,36,56,0.08);
+    }
+    .item-card .photo.placeholder {
+      background: linear-gradient(135deg, #eef2fb, #f7f9fd); border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center; font-size: 30px;
+    }
+    .item-card .name { font-size: 12.5px; font-weight: 600; margin-top: 6px; line-height: 1.25; }
 
-    .item { display: flex; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 14px; gap: 4px; }
-    .item .name { flex: 1; min-width: 0; }
-    .item .price { width: 46px; text-align: right; flex-shrink: 0; font-weight: 600; }
-    .item .price.na { color: var(--line); font-weight: 400; }
-    .item.single .price { width: auto; margin-left: auto; }
-    .note { font-size: 11.5px; color: var(--muted); margin: -3px 0 6px; padding-left: 2px; }
+    .note { font-size: 11.5px; color: var(--muted); margin: 4px 0 14px; padding-left: 2px; }
+
+    .addon-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+    .addon-tags span { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 7px 13px; font-size: 12.5px; }
 
     .legend { display: flex; gap: 16px; justify-content: center; font-size: 11.5px; color: var(--muted); margin: 26px 0 6px; }
 
@@ -61,105 +70,120 @@
     <a class="back" href="index.html">← Back</a>
     <img class="logo" src="logo.png" alt="Layover Coffee">
     <h1>MENU</h1>
-    <p class="subtitle">Prices in ₱ · Boarding Now, Cebu</p>
+    <p class="subtitle">Boarding Now, Cebu</p>
 
     <a class="cta" href="https://m.me/layovercoffee?text=Hi!%20I%20want%20to%20order%20please%20%F0%9F%98%8A">💬 Ready to order? Message us</a>
+    <p class="cta-note">Prices aren't listed here — message us on Messenger and we'll get you sorted 😊</p>
 
     <h2>Coffee</h2>
     <h3>Espresso Based</h3>
-    <div class="size-header"><span class="name"></span><span class="p">Hot 8oz</span><span class="p">Cold 12oz</span><span class="p">Cold 16oz</span></div>
-    <div class="item"><span class="name">Americano</span><span class="price">100</span><span class="price">120</span><span class="price">135</span></div>
-    <div class="item"><span class="name">Latte</span><span class="price">130</span><span class="price">145</span><span class="price">155</span></div>
-    <div class="item"><span class="name">Vanilla Latte</span><span class="price">125</span><span class="price">145</span><span class="price">155</span></div>
-    <div class="item"><span class="name">Cappuccino</span><span class="price">125</span><span class="price">140</span><span class="price">155</span></div>
-    <div class="item"><span class="name">⭐ Sea Salt</span><span class="price na">—</span><span class="price">160</span><span class="price">175</span></div>
-    <div class="item"><span class="name">⭐ Spanish</span><span class="price">145</span><span class="price">155</span><span class="price">165</span></div>
-    <div class="item"><span class="name">Caramel Macchiato</span><span class="price">145</span><span class="price">160</span><span class="price">175</span></div>
-    <div class="item"><span class="name">White Chocolate Mocha</span><span class="price">155</span><span class="price">170</span><span class="price">185</span></div>
-    <div class="item"><span class="name">Toffee Nut Latte</span><span class="price">155</span><span class="price">170</span><span class="price">185</span></div>
-    <div class="item"><span class="name">👑 Butterscotch Latte</span><span class="price">155</span><span class="price">170</span><span class="price">185</span></div>
-    <div class="item"><span class="name">👑 Salted Caramel</span><span class="price">155</span><span class="price">170</span><span class="price">185</span></div>
-    <div class="item"><span class="name">Mocha</span><span class="price">135</span><span class="price">150</span><span class="price">165</span></div>
-    <div class="item"><span class="name">Hazelnut Latte</span><span class="price">155</span><span class="price">170</span><span class="price">185</span></div>
+    <div class="item-grid">
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">Americano</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">Latte</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">Vanilla Latte</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">Cappuccino</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">⭐ Sea Salt</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">⭐ Spanish</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">Caramel Macchiato</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">White Chocolate Mocha</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">Toffee Nut Latte</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">👑 Butterscotch Latte</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">👑 Salted Caramel</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">Mocha</div></div>
+      <div class="item-card"><div class="photo placeholder">☕</div><div class="name">Hazelnut Latte</div></div>
+    </div>
 
     <h3>Signature Drinks</h3>
-    <div class="size-header"><span class="name"></span><span class="p">Cold 12oz</span><span class="p">Cold 16oz</span></div>
-    <div class="item"><span class="name">Jetlag Latte</span><span class="price">160</span><span class="price">175</span></div>
-    <div class="item"><span class="name">Barista's Drink</span><span class="price">150</span><span class="price">170</span></div>
+    <div class="item-grid">
+      <div class="item-card"><div class="photo placeholder">✈️</div><div class="name">Jetlag Latte</div></div>
+      <div class="item-card"><div class="photo placeholder">✈️</div><div class="name">Barista's Drink</div></div>
+    </div>
 
     <h2>Matcha Bar</h2>
-    <div class="size-header"><span class="name"></span><span class="p">Hot 8oz</span><span class="p">Iced 12oz</span><span class="p">Iced 16oz</span></div>
-    <div class="item"><span class="name">Matcha Latte</span><span class="price">150</span><span class="price">150</span><span class="price">170</span></div>
-    <div class="item"><span class="name">Hojicha Latte</span><span class="price">150</span><span class="price">150</span><span class="price">170</span></div>
-    <div class="item"><span class="name">Matcha Float</span><span class="price na">—</span><span class="price">170</span><span class="price">190</span></div>
-    <div class="item"><span class="name">⭐ Matcha Cloud</span><span class="price na">—</span><span class="price">165</span><span class="price">180</span></div>
-    <div class="item"><span class="name">⭐ Mango Oat Matcha</span><span class="price na">—</span><span class="price">170</span><span class="price">185</span></div>
-    <div class="item"><span class="name">Creamy Matcha Latte</span><span class="price na">—</span><span class="price">160</span><span class="price">180</span></div>
-    <div class="item"><span class="name">Strawberry Matcha</span><span class="price na">—</span><span class="price">160</span><span class="price">180</span></div>
-    <div class="item"><span class="name">Matcha Banana Pudding</span><span class="price na">—</span><span class="price na">—</span><span class="price">200</span></div>
+    <div class="item-grid">
+      <div class="item-card"><div class="photo placeholder">🍵</div><div class="name">Matcha Latte</div></div>
+      <div class="item-card"><div class="photo placeholder">🍵</div><div class="name">Hojicha Latte</div></div>
+      <div class="item-card"><div class="photo placeholder">🍵</div><div class="name">Matcha Float</div></div>
+      <div class="item-card"><div class="photo placeholder">🍵</div><div class="name">⭐ Matcha Cloud</div></div>
+      <div class="item-card"><div class="photo placeholder">🍵</div><div class="name">⭐ Mango Oat Matcha</div></div>
+      <div class="item-card"><div class="photo placeholder">🍵</div><div class="name">Creamy Matcha Latte</div></div>
+      <div class="item-card"><div class="photo placeholder">🍵</div><div class="name">Strawberry Matcha</div></div>
+      <div class="item-card"><div class="photo placeholder">🍵</div><div class="name">Matcha Banana Pudding</div></div>
+    </div>
 
     <h3>Add-Ons</h3>
-    <div class="item single"><span class="name">Extra Shot</span><span class="price">25</span></div>
-    <div class="item single"><span class="name">Oatmilk</span><span class="price">35</span></div>
-    <div class="item single"><span class="name">Sugar Syrup</span><span class="price">25</span></div>
-    <div class="item single"><span class="name">Caramel Sauce</span><span class="price">25</span></div>
-    <div class="item single"><span class="name">White Mocha Sauce</span><span class="price">30</span></div>
-    <div class="item single"><span class="name">Cold Foam</span><span class="price">25</span></div>
-    <div class="item single"><span class="name">Breve</span><span class="price">25</span></div>
-    <div class="item single"><span class="name">Tiramisu</span><span class="price">50</span></div>
+    <div class="addon-tags">
+      <span>Extra Shot</span><span>Oatmilk</span><span>Sugar Syrup</span><span>Caramel Sauce</span>
+      <span>White Mocha Sauce</span><span>Cold Foam</span><span>Breve</span><span>Tiramisu</span>
+    </div>
 
     <h2>Meals</h2>
     <h3>Pre-Flight Meals — Silog</h3>
-    <div class="item single"><span class="name">⭐ Hungarian Silog</span><span class="price">149</span></div>
-    <div class="item single"><span class="name">Hot Silog</span><span class="price">149</span></div>
-    <div class="item single"><span class="name">Ham Silog</span><span class="price">149</span></div>
-    <div class="item single"><span class="name">Spam Silog</span><span class="price">149</span></div>
-    <div class="item single"><span class="name">Corned Silog</span><span class="price">149</span></div>
+    <div class="item-grid">
+      <div class="item-card"><div class="photo placeholder">🍳</div><div class="name">⭐ Hungarian Silog</div></div>
+      <div class="item-card"><div class="photo placeholder">🍳</div><div class="name">Hot Silog</div></div>
+      <div class="item-card"><div class="photo placeholder">🍳</div><div class="name">Ham Silog</div></div>
+      <div class="item-card"><div class="photo placeholder">🍳</div><div class="name">Spam Silog</div></div>
+      <div class="item-card"><div class="photo placeholder">🍳</div><div class="name">Corned Silog</div></div>
+    </div>
 
     <h3>Flight Bites</h3>
-    <div class="item single"><span class="name">Classic Burger</span><span class="price">89</span></div>
-    <div class="item single"><span class="name">Chicken Fillet Sandwich</span><span class="price">149</span></div>
+    <div class="item-grid">
+      <div class="item-card"><div class="photo placeholder">🥪</div><div class="name">Classic Burger</div></div>
+      <div class="item-card"><div class="photo placeholder">🥪</div><div class="name">Chicken Fillet Sandwich</div></div>
+    </div>
 
     <h2>Non-Coffee</h2>
-    <div class="item single"><span class="name">Hot Chocolate</span><span class="price">130</span></div>
-    <div class="item single"><span class="name">Milo Cloud</span><span class="price">150</span></div>
-    <div class="item single"><span class="name">Ube Cloud</span><span class="price">150</span></div>
-    <div class="item single"><span class="name">Thai Milk Tea</span><span class="price">110</span></div>
-    <div class="item single"><span class="name">Double Coconut Cloud</span><span class="price">150</span></div>
+    <div class="item-grid">
+      <div class="item-card"><div class="photo placeholder">🥤</div><div class="name">Hot Chocolate</div></div>
+      <div class="item-card"><div class="photo placeholder">🥤</div><div class="name">Milo Cloud</div></div>
+      <div class="item-card"><div class="photo placeholder">🥤</div><div class="name">Ube Cloud</div></div>
+      <div class="item-card"><div class="photo placeholder">🥤</div><div class="name">Thai Milk Tea</div></div>
+      <div class="item-card"><div class="photo placeholder">🥤</div><div class="name">Double Coconut Cloud</div></div>
+    </div>
 
     <h2>Flight Favorites</h2>
-    <div class="item single"><span class="name">Sunset Mango Sticky Rice</span><span class="price">139</span></div>
-    <div class="item single"><span class="name">⭐ Mango Sticky Rice Supreme</span><span class="price">159</span></div>
-    <div class="note">*Available with your choice of ice cream</div>
-    <div class="item single"><span class="name">Brownie à la Mode</span><span class="price">140</span></div>
-    <div class="item single"><span class="name">⭐ Biscoff Brownie à la Mode</span><span class="price">155</span></div>
-    <div class="item single"><span class="name">Overload Cheesy Corn</span><span class="price">75</span></div>
-    <div class="item single"><span class="name">Mais Con Yelo</span><span class="price">140</span></div>
-    <div class="item single"><span class="name">⭐ Halo-Halo Supreme</span><span class="price">159</span></div>
+    <div class="item-grid">
+      <div class="item-card"><div class="photo placeholder">🍧</div><div class="name">Sunset Mango Sticky Rice</div></div>
+      <div class="item-card"><div class="photo placeholder">🍧</div><div class="name">⭐ Mango Sticky Rice Supreme</div></div>
+      <div class="item-card"><img class="photo" src="photos/brownies.jpg" alt="Brownie à la Mode"><div class="name">Brownie à la Mode</div></div>
+      <div class="item-card"><img class="photo" src="photos/biscoff-brownies.jpg" alt="Biscoff Brownie à la Mode"><div class="name">⭐ Biscoff Brownie à la Mode</div></div>
+      <div class="item-card"><div class="photo placeholder">🌽</div><div class="name">Overload Cheesy Corn</div></div>
+      <div class="item-card"><div class="photo placeholder">🍧</div><div class="name">Mais Con Yelo</div></div>
+      <div class="item-card"><div class="photo placeholder">🍧</div><div class="name">⭐ Halo-Halo Supreme</div></div>
+    </div>
+    <div class="note">*Mango Sticky Rice Supreme available with your choice of ice cream</div>
 
     <h2>Cabin Bakes</h2>
-    <div class="item single"><span class="name">Classic Brownies</span><span class="price">130</span></div>
-    <div class="item single"><span class="name">Biscoff Brownies</span><span class="price">150</span></div>
-    <div class="item single"><span class="name">Dubai Chewy Cookies</span><span class="price">120</span></div>
-    <div class="item single"><span class="name">Dubai Chewy Cookies (3 pcs)</span><span class="price">349</span></div>
+    <div class="item-grid">
+      <div class="item-card"><img class="photo" src="photos/brownies.jpg" alt="Classic Brownies"><div class="name">Classic Brownies</div></div>
+      <div class="item-card"><img class="photo" src="photos/biscoff-brownies.jpg" alt="Biscoff Brownies"><div class="name">Biscoff Brownies</div></div>
+      <div class="item-card"><div class="photo placeholder">🥐</div><div class="name">Dubai Chewy Cookies</div></div>
+      <div class="item-card"><div class="photo placeholder">🥐</div><div class="name">Dubai Chewy Cookies (3 pcs)</div></div>
+    </div>
 
     <h2>Layover Scoops</h2>
-    <div class="item single"><span class="name">⭐ Vanilla Biscoff Ice Cream</span><span class="price">149</span></div>
-    <div class="item single"><span class="name">Mango Graham</span><span class="price">149</span></div>
-    <div class="item single"><span class="name">Strawberry Lava</span><span class="price">139</span></div>
+    <div class="item-grid">
+      <div class="item-card"><div class="photo placeholder">🍦</div><div class="name">⭐ Vanilla Biscoff Ice Cream</div></div>
+      <div class="item-card"><div class="photo placeholder">🍦</div><div class="name">Mango Graham</div></div>
+      <div class="item-card"><div class="photo placeholder">🍦</div><div class="name">Strawberry Lava</div></div>
+    </div>
     <div class="note">*Our ice cream is homemade, crafted using high-quality ingredients.</div>
 
     <h2>Cabin Desserts</h2>
-    <div class="item single"><span class="name">⭐ Biscoff Banana Pudding</span><span class="price">160</span></div>
-    <div class="item single"><span class="name">Ube Banana Pudding</span><span class="price">160</span></div>
-    <div class="item single"><span class="name">Nutella Oreo Banana Pudding</span><span class="price">180</span></div>
+    <div class="item-grid">
+      <div class="item-card"><div class="photo placeholder">🍮</div><div class="name">⭐ Biscoff Banana Pudding</div></div>
+      <div class="item-card"><div class="photo placeholder">🍮</div><div class="name">Ube Banana Pudding</div></div>
+      <div class="item-card"><div class="photo placeholder">🍮</div><div class="name">Nutella Oreo Banana Pudding</div></div>
+    </div>
 
     <h2>Runway Fries</h2>
-    <div class="size-header"><span class="name"></span><span class="p">200g</span><span class="p">300g</span></div>
-    <div class="item"><span class="name">Cheese</span><span class="price">99</span><span class="price">149</span></div>
-    <div class="item"><span class="name">BBQ</span><span class="price">99</span><span class="price">149</span></div>
-    <div class="item"><span class="name">Sour Cream</span><span class="price">99</span><span class="price">149</span></div>
-    <div class="item"><span class="name">Chili BBQ</span><span class="price">99</span><span class="price">149</span></div>
+    <div class="item-grid">
+      <div class="item-card"><div class="photo placeholder">🍟</div><div class="name">Cheese</div></div>
+      <div class="item-card"><div class="photo placeholder">🍟</div><div class="name">BBQ</div></div>
+      <div class="item-card"><div class="photo placeholder">🍟</div><div class="name">Sour Cream</div></div>
+      <div class="item-card"><div class="photo placeholder">🍟</div><div class="name">Chili BBQ</div></div>
+    </div>
 
     <div class="legend"><span>⭐ Best Seller</span><span>👑 Premium Choice</span></div>
 
