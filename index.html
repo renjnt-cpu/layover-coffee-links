@@ -15,16 +15,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Layover Dessert Cafe (Layover Coffee) – Hernan Cortes, Mandaue</title>
-  <meta name="description" content="Coffee, matcha &amp; desserts inside Urban Deca Homes, Hernan Cortes, Mandaue City (Bldg. 16, Unit 115). Open daily 9 AM–3 AM. Menu and ordering links.">
+  <title>Layover Dessert Cafe (Layover Coffee) – Hernan Cortes &amp; Pelaez, Cebu</title>
+  <meta name="description" content="Coffee, matcha &amp; desserts at Urban Deca Homes, Hernan Cortes (Bldg. 16, Unit 115), Mandaue City and 233 Pelaez St, Cebu City. Menu and ordering links.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://renjnt-cpu.github.io/layover-coffee-links/">
   <link rel="icon" type="image/png" href="logo.png">
   <link rel="apple-touch-icon" href="logo.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Layover Dessert Cafe">
-  <meta property="og:title" content="Layover Dessert Cafe (Layover Coffee) – Hernan Cortes, Mandaue">
-  <meta property="og:description" content="Coffee, matcha &amp; desserts inside Urban Deca Homes, Hernan Cortes, Mandaue City. Open daily 9 AM–3 AM.">
+  <meta property="og:title" content="Layover Dessert Cafe (Layover Coffee) – Hernan Cortes &amp; Pelaez, Cebu">
+  <meta property="og:description" content="Coffee, matcha &amp; desserts at Urban Deca Homes, Hernan Cortes (Mandaue City) and 233 Pelaez St (Cebu City).">
   <meta property="og:url" content="https://renjnt-cpu.github.io/layover-coffee-links/">
   <meta property="og:image" content="https://renjnt-cpu.github.io/layover-coffee-links/logo.png">
   <meta property="og:locale" content="en_PH">
@@ -34,41 +34,87 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "CafeOrCoffeeShop",
-    "@id": "https://renjnt-cpu.github.io/layover-coffee-links/#cafe",
-    "name": "Layover Dessert Cafe",
-    "alternateName": ["Layover Coffee", "Layover Cafe"],
-    "description": "Coffee, matcha and desserts inside Urban Deca Homes, Hernan Cortes, Mandaue City, Cebu.",
-    "url": "https://renjnt-cpu.github.io/layover-coffee-links/",
-    "logo": "https://renjnt-cpu.github.io/layover-coffee-links/logo.png",
-    "image": [
-      "https://renjnt-cpu.github.io/layover-coffee-links/logo.png",
-      "https://renjnt-cpu.github.io/layover-coffee-links/photos/bg-rotate.jpg"
-    ],
-    "telephone": "+63 956 358 5888",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Bldg. 16, Unit 115, Urban Deca Homes, Hernan Cortes Street",
-      "addressLocality": "Mandaue City",
-      "addressRegion": "Cebu",
-      "addressCountry": "PH"
-    },
-    "hasMap": "https://share.google/FFeu1e0yfBBOAFOCL",
-    "openingHoursSpecification": [
+    "@graph": [
       {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        "opens": "09:00",
-        "closes": "03:00"
+        "@type": "Organization",
+        "@id": "https://renjnt-cpu.github.io/layover-coffee-links/#org",
+        "name": "Layover Dessert Cafe",
+        "alternateName": ["Layover Coffee", "Layover Cafe"],
+        "url": "https://renjnt-cpu.github.io/layover-coffee-links/",
+        "logo": "https://renjnt-cpu.github.io/layover-coffee-links/logo.png",
+        "sameAs": [
+          "https://www.facebook.com/layovercoffee",
+          "https://instagram.com/layover_coffee",
+          "https://www.tiktok.com/@layover.coffee4",
+          "https://www.foodpanda.ph/restaurant/a6y2/layover-coffee-hernan-cortes-street"
+        ]
+      },
+      {
+        "@type": "CafeOrCoffeeShop",
+        "@id": "https://renjnt-cpu.github.io/layover-coffee-links/#hernan-cortes",
+        "name": "Layover Dessert Cafe",
+        "alternateName": ["Layover Coffee", "Layover Cafe"],
+        "description": "Coffee, matcha and desserts inside Urban Deca Homes, Hernan Cortes, Mandaue City, Cebu.",
+        "url": "https://renjnt-cpu.github.io/layover-coffee-links/",
+        "logo": "https://renjnt-cpu.github.io/layover-coffee-links/logo.png",
+        "image": [
+          "https://renjnt-cpu.github.io/layover-coffee-links/logo.png",
+          "https://renjnt-cpu.github.io/layover-coffee-links/photos/bg-rotate.jpg"
+        ],
+        "telephone": "+63 956 358 5888",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Bldg. 16, Unit 115, Urban Deca Homes, Hernan Cortes Street",
+          "addressLocality": "Mandaue City",
+          "addressRegion": "Cebu",
+          "addressCountry": "PH"
+        },
+        "hasMap": "https://share.google/FFeu1e0yfBBOAFOCL",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "09:00",
+            "closes": "03:00"
+          }
+        ],
+        "servesCuisine": ["Coffee", "Matcha", "Desserts", "Ice cream"],
+        "hasMenu": "https://renjnt-cpu.github.io/layover-coffee-links/menu.html",
+        "parentOrganization": { "@id": "https://renjnt-cpu.github.io/layover-coffee-links/#org" },
+        "sameAs": [
+          "https://www.facebook.com/layovercoffee",
+          "https://instagram.com/layover_coffee",
+          "https://www.tiktok.com/@layover.coffee4",
+          "https://www.foodpanda.ph/restaurant/a6y2/layover-coffee-hernan-cortes-street"
+        ]
+      },
+      {
+        "@type": "CafeOrCoffeeShop",
+        "@id": "https://renjnt-cpu.github.io/layover-coffee-links/#pelaez",
+        "name": "Layover Dessert Cafe",
+        "alternateName": ["Layover Coffee", "Layover Cafe"],
+        "description": "Layover branch on Pelaez Street, Cebu City.",
+        "url": "https://renjnt-cpu.github.io/layover-coffee-links/",
+        "logo": "https://renjnt-cpu.github.io/layover-coffee-links/logo.png",
+        "image": "https://renjnt-cpu.github.io/layover-coffee-links/logo.png",
+        "telephone": "+63 956 358 5888",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "233 Pelaez St",
+          "addressLocality": "Cebu City",
+          "addressRegion": "Cebu",
+          "addressCountry": "PH"
+        },
+        "hasMap": "https://www.google.com/maps/search/?api=1&query=Layover+Coffee+233+Pelaez+St+Cebu+City",
+        "servesCuisine": ["Coffee", "Matcha", "Desserts", "Ice cream"],
+        "hasMenu": "https://renjnt-cpu.github.io/layover-coffee-links/menu.html",
+        "parentOrganization": { "@id": "https://renjnt-cpu.github.io/layover-coffee-links/#org" },
+        "sameAs": [
+          "https://www.facebook.com/layovercoffee",
+          "https://instagram.com/layover_coffee",
+          "https://www.tiktok.com/@layover.coffee4"
+        ]
       }
-    ],
-    "servesCuisine": ["Coffee", "Matcha", "Desserts", "Ice cream"],
-    "hasMenu": "https://renjnt-cpu.github.io/layover-coffee-links/menu.html",
-    "sameAs": [
-      "https://www.facebook.com/layovercoffee",
-      "https://instagram.com/layover_coffee",
-      "https://www.tiktok.com/@layover.coffee4",
-      "https://www.foodpanda.ph/restaurant/a6y2/layover-coffee-hernan-cortes-street"
     ]
   }
   </script>
@@ -175,6 +221,8 @@
     .find { text-align: center; font-size: 13px; color: var(--muted); margin-top: 26px; line-height: 1.5; }
     .find .find-title { color: var(--blue); font-weight: 700; margin-bottom: 2px; }
     .find address { font-style: normal; }
+    .find .branch { margin-top: 12px; }
+    .find .branch strong { color: var(--ink); }
     .find a { color: var(--blue); text-decoration: none; font-weight: 600; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   </style>
@@ -183,7 +231,7 @@
   <div class="bg-rotate" aria-hidden="true"></div>
   <div class="page">
     <img class="logo" src="logo.png" alt="Layover Dessert Cafe">
-    <h1 class="sr-only">Layover Dessert Cafe (Layover Coffee) – coffee and desserts in Urban Deca Homes, Hernan Cortes, Mandaue City</h1>
+    <h1 class="sr-only">Layover Dessert Cafe (Layover Coffee) – coffee and desserts in Urban Deca Homes, Hernan Cortes, Mandaue City and on Pelaez Street, Cebu City</h1>
     <p class="tagline">Your next stop for coffee and treats.</p>
 
     <!-- Flight of the Month: evergreen, doesn't need editing when the season changes —
@@ -246,9 +294,18 @@
 
     <div class="find">
       <div class="find-title">Find us</div>
-      <address>Layover Dessert Cafe (Layover Coffee)<br>Bldg. 16, Unit 115, Urban Deca Homes<br>Hernan Cortes Street, Mandaue City, Cebu</address>
-      <div>Open daily, 9:00 AM–3:00 AM</div>
-      <div><a href="tel:+639563585888">0956 358 5888</a></div>
+      <div class="branch">
+        <strong>Hernan Cortes, Mandaue</strong>
+        <address>Layover Dessert Cafe (Layover Coffee)<br>Bldg. 16, Unit 115, Urban Deca Homes<br>Hernan Cortes Street, Mandaue City, Cebu</address>
+        <div>Open daily, 9:00 AM–3:00 AM</div>
+        <div><a href="https://share.google/FFeu1e0yfBBOAFOCL" target="_blank" rel="noopener">Get directions</a></div>
+      </div>
+      <div class="branch">
+        <strong>Pelaez Street, Cebu City</strong>
+        <address>Layover Dessert Cafe (Layover Coffee)<br>233 Pelaez St, Cebu City</address>
+        <div><a href="https://www.google.com/maps/search/?api=1&amp;query=Layover+Coffee+233+Pelaez+St+Cebu+City" target="_blank" rel="noopener">Get directions</a></div>
+      </div>
+      <div class="branch"><a href="tel:+639563585888">0956 358 5888</a></div>
     </div>
 
     <div class="footer">
